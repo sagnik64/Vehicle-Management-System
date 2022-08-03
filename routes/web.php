@@ -18,5 +18,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('login','loginpage');
+Route::get('login', function () {
+    return view('loginpage');
+});
 Route::post('login',[LoginController::class,'userLogin']);
