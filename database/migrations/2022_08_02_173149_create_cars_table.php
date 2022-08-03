@@ -14,29 +14,30 @@ class CreateCarsTable extends Migration
     public function up()
     {
         Schema::create('cars', function (Blueprint $table) {
-            $table->id()->from(1001);
+            $table->id();
             $table->string('car_name');
+            $table->decimal('price_(rs)');
             $table->string('brand');
             $table->string('model');
-            $table->string('colour');
-            $table->string('transmission');
-            $table->string('fuel_type');
-            $table->string('front_break_type');
-            $table->string('rear_break_type');
-            $table->string('max_Power');
-            $table->string('max_Torque');
-            $table->string('body_type');
             $table->integer('model_year');
-            $table->integer('kmpl_mileage');
-            $table->integer('engine_displacement_cc');
+            $table->integer('colors_available');
+            $table->integer('wheel_count');
+            $table->string('fuel_type');
+            $table->integer('record_status');
+            $table->integer('first_production_year');
+            $table->string('transmission');
+            $table->integer('engine_displacement_(cc)');
             $table->integer('seating_capacity');
-            $table->integer('fuel_tank_capacity');
-            $table->integer('length');
-            $table->integer('width');
-            $table->integer('height');
-            $table->integer('price');
-            $table->integer('dealer_id');
-            $table->integer('status');
+            $table->decimal('fuel_tank_capacity_(litres)');
+            $table->string('body_type');
+            $table->integer('mileage_(kmpl)');
+            $table->integer('rpm');
+            $table->integer('max_power_(bhp)');
+            $table->integer('max_torque_(nm)');
+            $table->integer('length_(mm)');
+            $table->integer('width_(mm)');
+            $table->integer('height_(mm)');
+            $table->integer('wheel_base_(mm)');
             $table->timestamps();
         });
     }
