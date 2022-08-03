@@ -15,7 +15,7 @@ class CreateCarsTable extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id()->from(1001);
-            $table->string('name');
+            $table->string('car_name');
             $table->string('brand');
             $table->string('model');
             $table->string('colour');
@@ -23,8 +23,8 @@ class CreateCarsTable extends Migration
             $table->string('fuel_type');
             $table->string('front_break_type');
             $table->string('rear_break_type');
-            $table->string('Max_Power');
-            $table->string('Max_Torque');
+            $table->string('max_Power');
+            $table->string('max_Torque');
             $table->string('body_type');
             $table->integer('model_year');
             $table->integer('kmpl_mileage');

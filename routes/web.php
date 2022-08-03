@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,5 +18,24 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('login','loginpage');
-Route::post('login',[LoginController::class,'userLogin']);
+
+Route::get('login', function () {
+    if(session()->has('email')) {
+        return redirect('profile');
+    }
+    return view('login');
+});
+
+Route::get('logout', function () {
+    if(session()->has('email')) {
+        session()->pull('email');
+    }
+    return redirect('login');
+});
+
+Route::view('visitor','profile/visitor');
+Route::view('profile/customer','profile/customer');
+Route::view('profile/dealer','profile/dealer');
+Route::view('profile/admin','profile/admin');
+
+Route::post('user_login',[UserController::class,'userLogin']);
