@@ -25,3 +25,9 @@ Route::post('/users',[UserController::class,'store']);
 Route::post('/bikes',[BikeController::class,'store']);
 Route::post('cars',[CarController::class,'store']);
 Route::get('cars',[CarController::class,'index']);
+
+Route::get('cars/name/{car_name}',[CarController::class,'getByCarName']);
+Route::get('cars/brand/{brand}',[CarController::class,'getByBrand']);
+Route::get('cars/transmission/{transmission}',[CarController::class,'getByTransmission']);
+Route::get('cars/fuel/{fuel_type}',[CarController::class,'getByFuelType']);
+
