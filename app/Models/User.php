@@ -18,21 +18,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'username',
+        'first_name',
+        'last_name',
+        'phone',
+        'address',
         'email',
         'password',
-        'user_type',
+        'user_type'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-
-    ];
 
     /**
      * The attributes that should be cast.
@@ -40,5 +34,6 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'integer' => 'user_type'
     ];
 }
