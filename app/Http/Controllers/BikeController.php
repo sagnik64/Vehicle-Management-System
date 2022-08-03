@@ -8,7 +8,7 @@ use App\Models\Bike;
 class BikeController extends Controller
 {
     public function store(Request $request) {
-       
+        
         $bike = Bike::create($request->all());
 
         if($bike) {
@@ -24,9 +24,5 @@ class BikeController extends Controller
             "code" => 400,
             "message" => "Failed to save Bike data."
             ],400);
-    }
-
-    public function greet(){
-        return "hello";
     }
 }
