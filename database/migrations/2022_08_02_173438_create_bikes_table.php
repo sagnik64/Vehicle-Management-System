@@ -15,7 +15,7 @@ class CreateBikesTable extends Migration
     {
         Schema::create('bikes', function (Blueprint $table) {
             $table->id()->from(501);
-            $table->string('name');
+            $table->string('bike_name');
             $table->string('brand');
             $table->string('model');
             $table->string('colour');
