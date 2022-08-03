@@ -8,6 +8,28 @@ use Illuminate\Http\Request;
 class CarController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index() {
+        $car= Car::all();
+        if(!$car->isEmpty()) {
+            return response()->json([
+                "success" => "true",
+                "code" => 200,
+                "message" => "Car data found",
+                "data" => $car
+            ],200);
+        }
+        return response()->json([
+            "status" => "fail",
+            "code" => 400,
+            "message" => "Car data not found"
+        ],400);
+    }
+    
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
