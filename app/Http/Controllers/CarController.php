@@ -142,6 +142,36 @@ class CarController extends Controller
     }
     
     /**
+     * Display a listing of the resource by between price_start and price_end.
+     * @param $price_start starting price_rs, $price_end ending price_rs 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function getBetweenPrice($price_start,$price_end) {
+        $car = Car::where('price_rs', '>=', $price_start)
+        ->where('price_rs', '<=', $price_end)
+        ->where('record_status', '=', 1)
+        ->select('fuel_type', 'id', 'car_name', 'price_rs', 'brand', 'model', 'transmission')
+        ->orderBy('car_name')
+        ->get();
+
+        if(count($car)) {
+            return response()->json([
+                "success" => "true",
+                "code" => 200,
+                "message" => "Found car data",
+                "data" => $car
+            ],200); 
+        }
+
+        return response()->json([
+            "success" => "false",
+            "code" => 404,
+            "message" => "No records found"
+        ],404);        
+    }
+    
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
