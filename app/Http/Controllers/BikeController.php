@@ -26,6 +26,10 @@ class BikeController extends Controller
             ],400);
     }
 
+    public function getAllBikes(){
+        return Bike::all();
+    }
+    
     public function getAllActiveBikes(){
         return Bike::all()
         ->where('record_status','=', 1);
@@ -34,6 +38,11 @@ class BikeController extends Controller
     public function getAllInactiveBikes(){
         return Bike::all()
         ->where('record_status','=', 2);
+    }
+    
+    public function getbyBikeId($id){
+        return Bike::find($id);
+      
     }
     
     public function getbyBikeName($req){
@@ -79,5 +88,38 @@ class BikeController extends Controller
         ->where('model_year','=', $year)
         ->where('record_status','=', 1)
         ->get();
+    }
+
+    public function updatePrice($val1,$val2){
+        $newPrice = (int)$val2;
+        $data = Bike::find($val1)->update(['on_road_price'=>$newPrice]);
+        if($data){
+            return ["Result"=>"Price Updated Successfully."];
+        }
+        else{
+            return ["Result"=>"Price Updation Failed."];
+        }
+    }
+    
+    public function updateDealer($val1,$val2){
+        $newDealerId = (int)$val2;
+        $data = Bike::find($val1)->update(['dealer_id'=>$newDealerId]);
+        if($data){
+            return ["Result"=>"Dealer Updated Successfully."];
+        }
+        else{
+            return ["Result"=>"Dealer Updation Failed."];
+        }
+    }
+    
+    public function updateStatus($val1,$val2){
+        $newStatusId = (int)$val2;
+        $data = Bike::find($val1)->update(['record_status'=>$newStatusId]);
+        if($data){
+            return ["Result"=>"Status Updated Successfully."];
+        }
+        else{
+            return ["Result"=>"Status Updation Failed."];
+        }
     }
 }
