@@ -20,6 +20,7 @@ class Bike extends Model
         'model',
         'model_year',
         'colour',
+        'engine_id',
         'engine_displacement_cc',
         'kmpl_mileage',
         'gear_count',
@@ -36,10 +37,7 @@ class Bike extends Model
         'wheel_base',
         'on_road_price',
         'dealer_id',
-        'total_units',
-        'sold_units',
-        'unsold_units',
-        'defective_units'
+        'record_status'
     ];
 
 
@@ -60,9 +58,6 @@ class Bike extends Model
         'integer' => 'wheel_base',
         'integer' => 'on_road_price',
         'integer' => 'dealer_id',
-        'integer' => 'total_units',
-        'integer' => 'sold_units',
-        'integer' => 'unsold_units',
-        'integer' => 'defective_units'
+        'integer' => 'record_status',
     ];
 }

@@ -23,10 +23,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/users',[UserController::class,'store']);
 
-Route::post('/bikes',[BikeController::class,'store']);
-Route::get('allbikes',[BikeController::class,'getAllBikes']);
-Route::get('/bike/{bike_name}',[BikeController::class,'getbyBikeName']);
-Route::get('/bikes/{brand}',[BikeController::class,'getbyBrand']);
+Route::post('bikes',[BikeController::class,'store']);
+Route::get('allactivebikes',[BikeController::class,'getAllActiveBikes']);
+Route::get('allinactivebikes',[BikeController::class,'getAllInactiveBikes']);
+Route::get('bike/{bike_name}',[BikeController::class,'getbyBikeName']);
+Route::get('bikes/{brand}',[BikeController::class,'getbyBrand']);
+
+Route::get('bikebyprice/{v1}/{v2}',[BikeController::class,'getbyPrice']);
+Route::get('/bikesbycc/{v1}/{v2}',[BikeController::class,'getbyCC']);
+Route::get('/bikesbymilage/{v1}/{v2}',[BikeController::class,'getbyMileage']);
+
+Route::get('/bikesbynameyear/{name}/{year}',[BikeController::class,'getbyNameYear']);
 
 Route::post('cars',[CarController::class,'store']);
 Route::get('cars',[CarController::class,'index']);
