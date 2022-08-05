@@ -44,3 +44,6 @@ Route::post('user_login',[UserController::class,'userLogin']);
 Route::post('/bikes',[BikeController::class,'store']);
 Route::get('allbikes',[BikeController::class,'getAllBikes']);
 Route::get('/bike/{bike_name}',[BikeController::class,'getbyBikeName']);
+
+
+Route::get('/bikesbynameyear/{name}/{year}',[BikeController::class,'getbyNameYear']);

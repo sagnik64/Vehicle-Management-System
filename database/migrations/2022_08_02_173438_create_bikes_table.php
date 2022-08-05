@@ -20,6 +20,7 @@ class CreateBikesTable extends Migration
             $table->string('model');
             $table->integer('model_year');
             $table->string('colour');
+            $table->string('engine_id');
             $table->integer('engine_displacement_cc');
             $table->integer('kmpl_mileage');
             $table->integer('gear_count');
@@ -36,10 +37,7 @@ class CreateBikesTable extends Migration
             $table->integer('wheel_base');
             $table->integer('on_road_price');
             $table->integer('dealer_id');
-            $table->integer('total_units');
-            $table->integer('sold_units');
-            $table->integer('unsold_units');
-            $table->integer('defective_units')->default(0);
+            $table->integer('record_status');;
             $table->timestamps();
         });
     }
