@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BikeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +40,7 @@ Route::view('profile/dealer','profile/dealer');
 Route::view('profile/admin','profile/admin');
 
 Route::post('user_login',[UserController::class,'userLogin']);
+
+Route::post('/bikes',[BikeController::class,'store']);
+Route::get('allbikes',[BikeController::class,'getAllBikes']);
+Route::get('/bike/{bike_name}',[BikeController::class,'getbyBikeName']);

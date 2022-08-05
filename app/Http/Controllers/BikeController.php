@@ -25,4 +25,16 @@ class BikeController extends Controller
             "message" => "Failed to save Bike data."
             ],400);
     }
+
+    public function getAllBikes(){
+        return Bike::all();
+    }
+    
+    public function getbyBikeName($req){
+        return Bike::where('bike_name','like','%'.$req.'%')->get();
+    }
+    
+    public function getbyBrand($req){
+    return Bike::where('brand','like','%'.$req.'%')->get();
+    }
 }
