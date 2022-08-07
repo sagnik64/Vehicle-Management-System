@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Jobs\SendUserLogInMailJob;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -64,6 +65,11 @@ class UserController extends Controller
             ],400);
         }
         
+        $u = User::find($user[0]['id']);
+
+        SendUserLogInMailJob::dispatch($u)->delay(now()->addSeconds(1));
+
+
         $user_first_name = $user[0]['first_name'];
         $user_type = $user[0]['user_type'];
 

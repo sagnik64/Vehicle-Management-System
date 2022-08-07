@@ -47,4 +47,3 @@ Route::get('cars/brand/{brand}',[CarController::class,'getByBrand']);
 Route::get('cars/transmission/{transmission}',[CarController::class,'getByTransmission']);
 Route::get('cars/fuel/{fuel_type}',[CarController::class,'getByFuelType']);
 Route::get('cars/price/{price_start}/{price_end}',[CarController::class,'getBetweenPrice']);
-
