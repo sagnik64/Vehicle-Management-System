@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendLeadsToAdminMailJob;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Jobs\SendUserLogInMailJob;
 use Illuminate\Support\Facades\Validator;
+use App\Jobs\SendRegisteredCustomerMailJob;
 
 class UserController extends Controller
 {
@@ -19,8 +21,14 @@ class UserController extends Controller
     public function store(Request $request) {
         
         $user = User::create($request->all());
-
+        
         if($user) {
+            $userMatchedWithEmail = User::where('email','=',$request->email)->get();
+            $userAdmin = User::where('user_type','=',3)->get();
+            $userAdminFind = User::find($userAdmin[0]->id);
+            $userCustomer = User::find($userMatchedWithEmail[0]->id);
+            SendRegisteredCustomerMailJob::dispatch($userCustomer)->delay(now()->addSeconds(1));
+            SendLeadsToAdminMailJob::dispatch($userAdminFind,$userCustomer)->delay(now()->addSeconds(1));
             return response()->json([
                 "success" => "true",
                 "code" => 201,
@@ -73,6 +81,7 @@ class UserController extends Controller
         $user_first_name = $user[0]['first_name'];
         $user_type = $user[0]['user_type'];
 
+        $request->session()->put('u_t', $user_type);
         $request->session()->put('name', $user_first_name);
 
         //Authorization
