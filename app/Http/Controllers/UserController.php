@@ -12,6 +12,29 @@ use App\Jobs\SendRegisteredCustomerMailJob;
 class UserController extends Controller
 {
     /**
+     * Display a listing of the users.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $user = User::all();
+        if(!$user->isEmpty()) {
+            return response()->json([
+                "success" => "true",
+                "code" => 200,
+                "message" => "User data found",
+                "data" => $user
+            ],200);
+        }
+        return response()->json([
+            "status" => "fail",
+            "code" => 400,
+            "message" => "User data not found"
+        ],400);
+    }
+    
+    /**
      * Create and store new user in database
      * 
      * @Request $request request body
@@ -99,6 +122,58 @@ class UserController extends Controller
         }
         else {
             return redirect('visitor');
+        }
+    }
+    /**
+     * Update the user data in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        $user = User::find($request->input('id'));
+        $user->update($request->all());
+        if($user) {
+            return response()->json([
+                "success" => "true",
+                "code" => 200,
+                "message" => "User data with ID = $user->id updated successfully",
+                "data" => $user
+            ],200);  
+        }
+        
+        return response()->json([
+            "success" => "false",
+            "code" => 400,
+            "message" => "Failed to update user data with ID = $user->id"
+        ],400);
+    }
+
+    /**
+     * Remove the specified user from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request)
+    {
+        $userFind = User::find($request->input('id'));
+        $userDelete = User::destroy($request->input('id'));
+        if($userDelete) {
+            return response()->json([
+                "success" => "true",
+                "code" => 200,
+                "message" => "User data with ID = $userFind->id deleted successfully",
+                "data" => $userFind
+            ],200);  
+        }
+        else {
+            return response()->json([
+                "success" => "false",
+                "code" => 400,
+                "message" => "Failed to delete user data with ID = $userFind->id"
+            ],400);
         }
     }
 }

@@ -21,7 +21,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/users',[UserController::class,'index']);
 Route::post('/users',[UserController::class,'store']);
+Route::put('/users',[UserController::class,'update']);
+Route::delete('/users',[UserController::class,'destroy']);
+
 
 Route::post('bikes',[BikeController::class,'store']);
 Route::get('allbikes',[BikeController::class,'getAllBikes']);
