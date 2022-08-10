@@ -193,4 +193,57 @@ class CarController extends Controller
             "message" => "Failed to save cars data"
         ],400);
     }
+
+    /**
+     * Update the car data in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        $car= Car::find($request->input('id'));
+        $car->update($request->all());
+        if($car) {
+            return response()->json([
+                "success" => "true",
+                "code" => 200,
+                "message" => "Car data with ID = $car->id updated successfully",
+                "data" => $car
+            ],200);  
+        }
+        
+        return response()->json([
+            "success" => "false",
+            "code" => 400,
+            "message" => "Failed to update car data with ID = $car->id"
+        ],400);
+    }
+
+    /**
+     * Remove the specified car from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request)
+    {
+        $carFind = Car::find($request->input('id'));
+        $carDelete = Car::destroy($request->input('id'));
+        if($carDelete) {
+            return response()->json([
+                "success" => "true",
+                "code" => 200,
+                "message" => "Car data with ID = $carFind->id deleted successfully",
+                "data" => $carFind
+            ],200);  
+        }
+        
+        return response()->json([
+            "success" => "false",
+            "code" => 400,
+            "message" => "Failed to delete car data with ID = $carFind->id"
+        ],400);
+        
+    }
 }
