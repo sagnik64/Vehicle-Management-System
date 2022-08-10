@@ -168,12 +168,35 @@ class UserController extends Controller
                 "data" => $userFind
             ],200);  
         }
-        else {
+        
+        return response()->json([
+            "success" => "false",
+            "code" => 400,
+            "message" => "Failed to delete user data with ID = $userFind->id"
+        ],400);
+        
+    }
+
+    /**
+     * Display a listing of the interested customers.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getCustomers()
+    {
+        $user = User::where('user_type', '=', 1)->get();
+        if(count($user)) {
             return response()->json([
-                "success" => "false",
-                "code" => 400,
-                "message" => "Failed to delete user data with ID = $userFind->id"
-            ],400);
+                "success" => "true",
+                "code" => 200,
+                "message" => "User data found",
+                "data" => $user
+            ],200);
         }
+        return response()->json([
+            "status" => "fail",
+            "code" => 400,
+            "message" => "User data not found"
+        ],400);
     }
 }
