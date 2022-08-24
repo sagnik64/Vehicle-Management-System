@@ -68,7 +68,8 @@ class CarTest extends TestCase
         $this->assertTrue($car1->car_name != $car2->car_name);
     }
 
-    public function test_delete_car() {
+    public function test_delete_car()
+    {
         $car = Car::make([
             "car_name" => "Venue",
             "price_rs" => 1070000,
@@ -95,14 +96,15 @@ class CarTest extends TestCase
             "wheel_base_mm" => 2500
         ]);
         $car = Car::first();
-        if($car) {
+        if ($car) {
             $car->delete();
         }
         $this->assertTrue(true);
     }
 
-    public function test_stores_new_car() {
-        $response = $this->post('/api/cars',[
+    public function test_stores_new_car()
+    {
+        $response = $this->post('/api/cars', [
             "car_name" => "Verna",
             "price_rs" => 1245000,
             "brand" => "Hyundai",
@@ -127,15 +129,17 @@ class CarTest extends TestCase
             "height_mm" => 1475,
             "wheel_base_mm" => 2600
         ]);
-        $response->assertStatus(201); 
+        $response->assertStatus(201);
+        $response->assertSame();
     }
 
-    public function test_database() {
-        $this->assertDatabaseHas('cars',[
+    public function test_database()
+    {
+        $this->assertDatabaseHas('cars', [
             'car_name' => 'Verna'
         ]);
-        $this->assertDatabaseMissing('cars',[
+        $this->assertDatabaseMissing('cars', [
             'car_name' => 'Bike'
         ]);
-    } 
+    }
 }
