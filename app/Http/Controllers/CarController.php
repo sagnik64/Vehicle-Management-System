@@ -246,4 +246,21 @@ class CarController extends Controller
         ],400);
         
     }
+
+    public function cars(Request $req)
+    {
+        $search = $req['search'] ?? "";
+        if($search != ""){
+            $cars = Car::where('car_name', 'like', $search."%")
+                        ->orWhere('brand', 'like', $search."%")
+                        ->orWhere('transmission', 'like', $search."%")
+                        ->orWhere('fuel_type', 'like', $search."%")
+                        ->get();
+        }else{
+            $cars = Car::all();
+        }
+        $data = compact('cars','search');
+        return view('dashboard')->with($data);
+    }
+
 }

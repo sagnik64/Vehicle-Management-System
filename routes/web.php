@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\BikeController;
+use App\Http\Controllers\CarController;
+use App\Http\Controllers\RegistrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/register',[RegistrationController::class,'index']);
+Route::post('/register',[RegistrationController::class,'register']);
 
 Route::get('login', function () {
     if (session()->has('email')) {
@@ -40,3 +43,6 @@ Route::view('profile/dealer', 'profile/dealer');
 Route::view('profile/admin', 'profile/admin');
 
 Route::post('user_login', [UserController::class, 'userLogin']);
+
+Route::get('dashboard',[CarController::class,'cars']);
+Route::post('getcar',[CarController::class,'cars']);
