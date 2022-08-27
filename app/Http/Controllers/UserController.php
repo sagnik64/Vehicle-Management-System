@@ -236,4 +236,13 @@ class UserController extends Controller
             "message" => "User data not found"
         ], 400);
     }
+
+    public function updateUserType(Request $req){
+        if($req->isMethod('patch')){
+            $userType = $req->input();
+            User::where('id',$userType['id'])->update(['user_type'=>$userType['user_type']]);
+            return response()->json(
+                ['message'=>'user type udated succesfully.'],202);
+        }
+    }
 }
