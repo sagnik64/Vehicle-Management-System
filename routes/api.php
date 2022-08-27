@@ -27,7 +27,7 @@ Route::post('/users',[UserController::class,'store']);
 Route::put('/users/{id}',[UserController::class,'update']);
 Route::delete('/users',[UserController::class,'destroy']);
 Route::get('/users/interested',[UserController::class,'getCustomers']);
-
+Route::patch('/user/update-user-type',[UserController::class,'updateUserType']);
 
 Route::get('allbikes',[BikeController::class,'getAllBikes']);
 Route::get('allactivebikes',[BikeController::class,'getAllActiveBikes']);
