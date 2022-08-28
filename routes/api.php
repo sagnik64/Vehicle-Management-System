@@ -50,6 +50,9 @@ Route::post('cars',[CarController::class,'store']);
 Route::get('cars',[CarController::class,'index']);
 Route::put('cars',[CarController::class,'update']);
 Route::delete('cars',[CarController::class,'destroy']);
+
+Route::get('search-car',[CarController::class,'searchCar']);
+
 Route::get('cars/name/{car_name}',[CarController::class,'getByCarName']);
 Route::get('cars/brand/{brand}',[CarController::class,'getByBrand']);
 Route::get('cars/transmission/{transmission}',[CarController::class,'getByTransmission']);
