@@ -3,8 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\BikeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\VehicleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,3 +56,9 @@ Route::get('cars/brand/{brand}',[CarController::class,'getByBrand']);
 Route::get('cars/transmission/{transmission}',[CarController::class,'getByTransmission']);
 Route::get('cars/fuel/{fuel_type}',[CarController::class,'getByFuelType']);
 Route::get('cars/price/{price_start}/{price_end}',[CarController::class,'getBetweenPrice']);
+
+
+Route::get('vehicle/status/{id}',[VehicleController::class,'getStatus']);
+Route::post('vehicle',[VehicleController::class,'store']);
+Route::put('vehicle/{id}',[VehicleController::class,'update']);
+Route::delete('vehicle/{id}',[VehicleController::class,'destroy']);
