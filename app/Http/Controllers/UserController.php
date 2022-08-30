@@ -203,7 +203,6 @@ class UserController extends Controller
                 "success" => "true",
                 "code" => 200,
                 "message" => "User data with ID = $userFind->id deleted successfully",
-                "data" => $userFind
             ], 200);
         }
 
