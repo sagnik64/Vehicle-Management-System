@@ -105,6 +105,13 @@ class UserController extends Controller
         ], 400);
     }
 
+    /**
+     * Login with email and password with validations
+     * 
+     * @Request $request request body
+     * 
+     * @return response
+     */
     public function userLogin(Request $request)
     {
 

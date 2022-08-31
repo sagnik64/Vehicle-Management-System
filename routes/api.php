@@ -4,7 +4,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\BikeController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VehicleController;
 
 /*
@@ -62,3 +64,14 @@ Route::get('vehicle/status/{id}',[VehicleController::class,'getStatus']);
 Route::post('vehicle',[VehicleController::class,'store']);
 Route::put('vehicle/{id}',[VehicleController::class,'update']);
 Route::delete('vehicle/{id}',[VehicleController::class,'destroy']);
+
+Route::get('order',[OrderController::class,'index']);
+Route::get('order/{id}',[OrderController::class,'getOrder']);
+Route::post('order',[OrderController::class,'store']);
+Route::put('order/{id}',[OrderController::class,'update']);
+
+
+Route::post('cart',[CartController::class,'addToCart']);
+Route::get('cart',[CartController::class,'index']);
+Route::get('cart/{userId}',[CartController::class,'getUserCart']);
+Route::delete('cart/{Id}',[CartController::class,'removeFromCart']);
