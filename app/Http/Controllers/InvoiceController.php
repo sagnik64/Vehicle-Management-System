@@ -59,6 +59,24 @@ class InvoiceController extends Controller
             "message" => "No Invoice found of Invoice ID $id"
         ],400);
     }
+
+    public function removeInvoice(Request $request)
+    {
+        $userFind = Invoice::find($request->input('id'));
+        $userDelete = Invoice::destroy($request->input('id'));
+        if ($userDelete) {
+            return response()->json([
+                "success" => "true",
+                "code" => 200,
+                "message" => "User data with ID = $userFind->id deleted successfully",
+            ], 200);
+        }
+        return response()->json([
+            "success" => "false",
+            "code" => 400,
+            "message" => "No Invoice found of Order ID $userFind->id"
+        ],400);
+    }
     
     public function getInvoiceByOrderId($odr_id){
         $data =  Invoice::where("order_id",$odr_id)->get();
