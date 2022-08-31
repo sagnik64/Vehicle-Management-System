@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\BikeController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VehicleController;
 
@@ -70,6 +71,16 @@ Route::get('/inventory-status/{id}',[InventoryController::class,'getInventorySta
 Route::get('/inventories-by-status-code/{id}',[InventoryController::class,'getStatusWiseInventoryList']);
 Route::get('/inventories-by-vehicle-type-code/{id}',[InventoryController::class,'getVehicleTypeWiseInventoryList']);
 Route::get('/inventories-by-sold-to-id/{id}',[InventoryController::class,'getInventoryListBySoldToId']);
+
+Route::post('/add-invoice',[InvoiceController::class,'store']);
+Route::get('/invoice',[InvoiceController::class,'getInvoice']);
+Route::get('/invoice/{id}',[InvoiceController::class,'getInvoiceDataById']);
+Route::get('/invoice/order/{id}',[InvoiceController::class,'getInvoiceByOrderId']);
+Route::get('/invoice/vehicle/{id}',[InvoiceController::class,'getInvoiceByVehicleId']);
+Route::get('/invoice/dealer/{id}',[InvoiceController::class,'getInvoicesOfDealerId']);
+Route::get('/invoice/transaction/{id}',[InvoiceController::class,'getInvoiceByTransactionId']);
+Route::get('/invoice/price/{minval}/{maxval}',[InvoiceController::class,'getInvoiceBetweenPrice']);
+Route::delete('/remove-invoice',[InvoiceController::class,'removeInvoice']);
 
 Route::get('vehicle/status/{id}',[VehicleController::class,'getStatus']);
 Route::post('vehicle',[VehicleController::class,'store']);
