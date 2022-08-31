@@ -9,20 +9,26 @@ class VehicleController extends Controller
 {
     public function getStatus($ID) {
         $vehicle = Vehicle::find($ID);
-        $status = 'unknown';
-        if($status == 0) {
+        $status = '';
+        if($vehicle) {
+            $vehicleStatus = $vehicle['status'];
+        }
+        if(!$vehicle) {
+            $status = 'unknown';
+        }
+        else if($vehicleStatus == 0) {
             $status = 'unlisted';
         }
-        else if($status == 1) {
+        else if($vehicleStatus == 1) {
             $status = 'send for approval';
         }
-        else if($status == 2) {
+        else if($vehicleStatus == 2) {
             $status = 'approved';
         }
-        else if($status == 3) {
+        else if($vehicleStatus == 3) {
             $status = 'declined/send back to dealer for changes';
         }
-
+        else $status = 'unknown';
         if ($vehicle) {
             return response()->json([
                 "success" => "true",
