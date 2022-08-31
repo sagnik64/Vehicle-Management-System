@@ -31,6 +31,7 @@ class InvoiceController extends Controller
             return response()->json([
                 "success" => "true",
                 "code" => 201,
+                "Total Available Invoices :"=> count($data),
                 "message" => "All Invoices are: ",
                 "data" => $data
             ],201);
