@@ -4,11 +4,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\BikeController;
-use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\VehicleController;
-
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InvoiceController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -53,12 +54,34 @@ Route::post('cars',[CarController::class,'store']);
 Route::get('cars',[CarController::class,'index']);
 Route::put('cars',[CarController::class,'update']);
 Route::delete('cars',[CarController::class,'destroy']);
+
+Route::get('search-car',[CarController::class,'searchCar']);
+
 Route::get('cars/name/{car_name}',[CarController::class,'getByCarName']);
 Route::get('cars/brand/{brand}',[CarController::class,'getByBrand']);
 Route::get('cars/transmission/{transmission}',[CarController::class,'getByTransmission']);
 Route::get('cars/fuel/{fuel_type}',[CarController::class,'getByFuelType']);
 Route::get('cars/price/{price_start}/{price_end}',[CarController::class,'getBetweenPrice']);
 
+Route::post('/add-inventory',[InventoryController::class,'store']);
+Route::get('/inventory-data',[InventoryController::class,'getInventorydata']);
+Route::get('/inventory-data/{id}',[InventoryController::class,'getInventoryDataById']);
+Route::delete('/remove-inventory-data',[InventoryController::class,'removeInventory']);
+Route::patch('/update-inventory-status/{id}/{sts}',[InventoryController::class,'updateInventoryStatus']);
+Route::get('/inventory-status/{id}',[InventoryController::class,'getInventoryStatus']);
+Route::get('/inventories-by-status-code/{id}',[InventoryController::class,'getStatusWiseInventoryList']);
+Route::get('/inventories-by-vehicle-type-code/{id}',[InventoryController::class,'getVehicleTypeWiseInventoryList']);
+Route::get('/inventories-by-sold-to-id/{id}',[InventoryController::class,'getInventoryListBySoldToId']);
+
+Route::post('/add-invoice',[InvoiceController::class,'store']);
+Route::get('/invoice',[InvoiceController::class,'getInvoice']);
+Route::get('/invoice/{id}',[InvoiceController::class,'getInvoiceDataById']);
+Route::get('/invoice/order/{id}',[InvoiceController::class,'getInvoiceByOrderId']);
+Route::get('/invoice/vehicle/{id}',[InvoiceController::class,'getInvoiceByVehicleId']);
+Route::get('/invoice/dealer/{id}',[InvoiceController::class,'getInvoicesOfDealerId']);
+Route::get('/invoice/transaction/{id}',[InvoiceController::class,'getInvoiceByTransactionId']);
+Route::get('/invoice/price/{minval}/{maxval}',[InvoiceController::class,'getInvoiceBetweenPrice']);
+Route::delete('/remove-invoice',[InvoiceController::class,'removeInvoice']);
 
 Route::get('vehicle/status/{id}',[VehicleController::class,'getStatus']);
 Route::post('vehicle',[VehicleController::class,'store']);
@@ -69,7 +92,6 @@ Route::get('order',[OrderController::class,'index']);
 Route::get('order/{id}',[OrderController::class,'getOrder']);
 Route::post('order',[OrderController::class,'store']);
 Route::put('order/{id}',[OrderController::class,'update']);
-
 
 Route::post('cart',[CartController::class,'addToCart']);
 Route::get('cart',[CartController::class,'index']);

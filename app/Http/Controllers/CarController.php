@@ -246,4 +246,44 @@ class CarController extends Controller
         ],400);
         
     }
+
+    public function carsDashboard(Request $req)
+    {
+        $search = $req['search'] ?? '';
+        if($search != ""){
+            $cars = Car::where('car_name', 'like', $search."%")
+                        ->orWhere('brand', 'like', $search."%")
+                        ->orWhere('transmission', 'like', $search."%")
+                        ->orWhere('fuel_type', 'like', $search."%")
+                        ->get();
+        }else{
+            $cars = Car::all();
+        }
+        $data = compact('cars','search');
+        return view('dashboard')->with($data);
+    }
+    
+    public function carsCustomers(Request $req)
+    {
+        if (session()->has('email')) 
+        {    
+            $search = $req['search'] ?? '';
+            if($search != "")
+            {
+                $cars = Car::where('car_name', 'like', $search."%")
+                            ->orWhere('brand', 'like', $search."%")
+                            ->orWhere('transmission', 'like', $search."%")
+                            ->orWhere('fuel_type', 'like', $search."%")
+                            ->get();
+            }
+            else
+            {
+                $cars = Car::all();
+            }
+            $data = compact('cars','search');
+            return view('profile.customer')->with($data);
+        }
+        return view('login');
+    }
+
 }
