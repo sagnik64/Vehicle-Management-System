@@ -23,7 +23,14 @@ Route::get('/', function () {
 Route::get('/register',[RegistrationController::class,'index']);
 Route::post('/register',[RegistrationController::class,'register']);
 
-Route::get('login',[CarController::class,'carsCustomers']);
+Route::get('login', function() {
+    if(session()->has('email')) {
+        return redirect('profile/customer');
+    }
+    return view('login');
+});
+
+
 
 Route::get('logout', function () {
     if (session()->has('email')) {
@@ -32,8 +39,10 @@ Route::get('logout', function () {
     return redirect('login');
 });
 
+Route::get('profile/customer',[CarController::class,'carsCustomer']);
+
 Route::view('visitor', 'profile/visitor');
-Route::view('profile/customer', 'profile/customer');
+// Route::view('profile/customer', 'profile/customer');
 Route::view('profile/dealer', 'profile/dealer');
 Route::view('profile/admin', 'profile/admin');
 

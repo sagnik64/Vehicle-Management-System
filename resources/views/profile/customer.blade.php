@@ -1,2 +1,2 @@
 @include('headers.customer')
-{{-- @include('body.carlisting') --}}
+@include('body.carlisting')

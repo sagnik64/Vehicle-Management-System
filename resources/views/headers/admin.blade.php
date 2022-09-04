@@ -11,7 +11,7 @@
   </head>
   <body>
     <div class="container fluid bg-dark">
-        div <div class="container">
+            <div class="container">
             <nav class="navbar navbar-expand-sm">
                 <a class="navbar-brand" href="#" style="color: white">Vehicle Management System</a>
                 <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
