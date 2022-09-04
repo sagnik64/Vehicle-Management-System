@@ -93,7 +93,7 @@ Route::get('order/{id}',[OrderController::class,'getOrder']);
 Route::post('order',[OrderController::class,'store']);
 Route::put('order/{id}',[OrderController::class,'update']);
 
-Route::post('cart',[CartController::class,'addToCart']);
+Route::post('cart',[CartController::class,'addToCart'])->name('cart.store');
 Route::get('cart',[CartController::class,'index']);
 Route::get('cart/{userId}',[CartController::class,'getUserCart']);
 Route::delete('cart/{Id}',[CartController::class,'removeFromCart']);

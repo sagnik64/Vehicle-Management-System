@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -15,6 +16,21 @@ class CartController extends Controller
      * @return response
      */
     public function addToCart(Request $request) {
+        // return $request->all();
+        if($request->status == 1) {
+            $cartFind = Cart::where('user_id','=',$request->user_id)
+                        ->where('vehicle_type_id','=',$request->vehicle_type_id)->get()->first();
+            $cartDelete = Cart::destroy($cartFind->id);
+            if ($cartDelete) {
+                return response()->json([
+                    "success" => "true",
+                    "code" => 200,
+                    "message" => "Cart data with ID = $cartFind->id removed from cart successfully",
+                    "data" => $cartFind
+                ], 200);
+            }
+        }
+        $request['status'] = 1;
         $cart = Cart::create($request->all());
         if($cart) {
             return response()->json([

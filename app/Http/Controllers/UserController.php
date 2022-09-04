@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SendLeadsToAdminMailJob;
+use App\Models\Cart;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Jobs\SendUserLogInMailJob;
+use Illuminate\Support\Facades\DB;
+use App\Jobs\SendLeadsToAdminMailJob;
 use Illuminate\Support\Facades\Validator;
 use App\Jobs\SendRegisteredCustomerMailJob;
 
@@ -151,9 +153,23 @@ class UserController extends Controller
         $user_first_name = $user[0]['first_name'];
         $user_type = $user[0]['user_type'];
 
+        
+
         $request->session()->put('u_t', $user_type);
         $request->session()->put('name', $user_first_name);
+        $request->session()->put('uid', $user[0]['id']);
+        
+        $userCartData = Cart::where('user_id','=',$user[0]['id'])->get();
 
+        $userCartVID = [];
+        for($i=0;$i<count($userCartData);$i++) {
+            if($userCartData[$i]->status == 1)
+            $userCartVID[]= $userCartData[$i]->vehicle_type_id;
+        }
+        $userCartVID = array_unique($userCartVID);
+        $request->session()->put('userCartData', $userCartData);
+        $request->session()->put('userCartDataCount', count($userCartVID));
+        $request->session()->put('userCartVID', $userCartVID);
         //Authorization
         if ($user_type === 0) {
             return redirect('visitor');

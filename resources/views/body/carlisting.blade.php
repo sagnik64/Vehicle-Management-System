@@ -39,6 +39,9 @@
                 </a>
             </form>
         </div>
+        <div style="text-align: right">
+          <strong> Cart: {{ session('userCartDataCount') }} </strong>  
+        </div>  
         <table class="table" style="text-align: center">
             <thead>
                 <tr>
@@ -67,14 +70,41 @@
                     <td style="vertical-align: middle">{{$car->colors_available}}</td>
                     <td style="vertical-align: middle">{{$car->price_rs}}</td>
                     <td style="vertical-align: middle">
-                        <a href="/login">
-                            <button class="btn  btn-primary">Add to Cart</button>
-                        </a>
+                        <form action="{{ route('cart.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="user_id" value="{{ $userId = (int)(session('uid')) }}">
+                            <input type="hidden" name="vehicle_type_id" value="{{ $VID = (int)($car->id) }}">
+                            <input type="hidden" name="vehicle_type" value="{{ $VType = "car" }}">
+                            
+                            <?php
+                            $matched = false;
+                            for($i=0;$i<count(session('userCartVID'));$i++) {
+                                $vehicleID = session('userCartVID')[$i];
+                                if($vehicleID == $car->id) {
+                                    echo '<input type="hidden" name="status" value="1">';
+                                    echo '<button class="btn  btn-danger">';
+                                    echo "Remove from Cart";
+                                    echo "</button>"; 
+                                    $S=1;       
+                                    $matched = true;
+                                    break;
+                                }
+                            }
+                            if($matched == false) {
+                                echo '<input type="hidden" name="status" value="0">';
+                                echo '<button class="btn  btn-primary">';
+                                echo "Add to Cart";
+                                echo "</button>";  
+                            }
+                            ?>
+                        </form>
                     </td>
                     <td style="vertical-align: middle">
-                        <a href="/login">
+                        <form action="{{ route('order') }}" method="GET">
+                            @csrf
+                            <input type="hidden" name="vehicle_type" value="{{ $VType = "car" }}">
                             <button class="btn  btn-success">Buy Now</button>
-                        </a>
+                    </form>
                     </td>
                 </tr>
                 @endforeach

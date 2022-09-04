@@ -22,6 +22,7 @@ Route::get('/', function () {
 
 Route::get('/register',[RegistrationController::class,'index']);
 Route::post('/register',[RegistrationController::class,'register']);
+Route::view('/order','order')->name('order');
 
 Route::get('login', function() {
     if(session()->has('email')) {
@@ -39,7 +40,7 @@ Route::get('logout', function () {
     return redirect('login');
 });
 
-Route::get('profile/customer',[CarController::class,'carsCustomer']);
+Route::get('profile/customer',[CarController::class,'carsCustomer'])->name('profile/customer');
 
 Route::view('visitor', 'profile/visitor');
 // Route::view('profile/customer', 'profile/customer');
