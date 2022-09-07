@@ -14,7 +14,7 @@ class Order extends Model
         'customer_user_id',
         'dealer_user_id',
         'payment_mode',
-        'payment_received',
+        'transaction_reference',
         'added_on',
         'status'
     ];
@@ -24,7 +24,7 @@ class Order extends Model
         'integer' => 'customer_user_id',
         'integer' => 'dealer_user_id',
         'integer' => 'payment_mode',
-        'boolean' => 'payment_received',
+        'integer' => 'transaction_reference',
         'date' => 'added_on',
         'integer' => 'status'
     ];

@@ -90,7 +90,7 @@ Route::delete('vehicle/{id}',[VehicleController::class,'destroy']);
 
 Route::get('order',[OrderController::class,'index']);
 Route::get('order/{id}',[OrderController::class,'getOrder']);
-Route::post('order',[OrderController::class,'store']);
+Route::post('order',[OrderController::class,'store'])->name('order');
 Route::put('order/{id}',[OrderController::class,'update']);
 
 Route::post('cart',[CartController::class,'addToCart'])->name('cart.store');

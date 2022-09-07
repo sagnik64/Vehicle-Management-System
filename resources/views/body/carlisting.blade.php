@@ -102,6 +102,7 @@
                     <td style="vertical-align: middle">
                         <form action="{{ route('order') }}" method="GET">
                             @csrf
+                            <input type="hidden" name="vehicle_type_id" value="{{ $VID = $car->id }}">
                             <input type="hidden" name="vehicle_type" value="{{ $VType = "car" }}">
                             <button class="btn  btn-success">Buy Now</button>
                     </form>

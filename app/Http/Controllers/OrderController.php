@@ -59,6 +59,7 @@ class OrderController extends Controller
      * @return response
      */
     public function store(Request $request) {
+        // return $request->all();
         $order = Order::create($request->all());
         if($order) {
             return response()->json([

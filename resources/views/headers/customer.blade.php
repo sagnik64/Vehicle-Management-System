@@ -14,7 +14,7 @@
     <div class="container fluid bg-dark">
             <div class="container">
             <nav class="navbar navbar-expand-sm">
-                <a class="navbar-brand" href="#" style="color: white">Vehicle Management System</a>
+                <a class="navbar-brand" href="" style="color: white">Vehicle Management System</a>
                 <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"
                 data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle Navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -22,16 +22,16 @@
             <div class="collapse navbar-collapse" id="collapsibleNavId">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url('/')}}" style="color: white">{{ session('name') }}</a>
+                        <a class="nav-link" href="/api/users/{{session('uid')}}" style="color: white">{{ session('name') }}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url('/')}}" style="color: white">My Cart</a>
+                        <a class="nav-link" href="/api/cart/{{session('uid')}}" style="color: white">My Cart</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url('/')}}" style="color: white">My Inventory</a>
+                        <a class="nav-link" href="" style="color: white">My Inventory</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url('/')}}" style="color: white">My Orders</a>
+                        <a class="nav-link" href="/api/order/{{session('uid')}}" style="color: white">My Orders</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url('/logout')}}" style="color: white">Logout</a>

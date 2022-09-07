@@ -20,7 +20,7 @@ class CreateOrdersTable extends Migration
             $table->integer('customer_user_id');
             $table->integer('dealer_user_id');
             $table->integer('payment_mode');
-            $table->boolean('payment_received');
+            $table->integer('transaction_reference');
             $table->date('added_on');
             $table->integer('status');
             $table->timestamps();
