@@ -34,7 +34,7 @@
 
                 </div>
                 <button class="btn btn-primary">Search</button>
-                <a href="{{url('/profile/customer')}}">
+                <a href="{{url('/dashboard')}}">
                     <button class="btn btn-primary" type="button">Reset</button>
                 </a>
             </form>
