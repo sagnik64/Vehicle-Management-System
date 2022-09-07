@@ -247,19 +247,22 @@ class CarController extends Controller
         
     }
 
-    public function carsDashboard(Request $req)
+    public function carsDashboard(Request $request)
     {
-        $search = $req['search'] ?? '';
-        if($search != ""){
-            $cars = Car::where('car_name', 'like', $search."%")
-                        ->orWhere('brand', 'like', $search."%")
-                        ->orWhere('transmission', 'like', $search."%")
-                        ->orWhere('fuel_type', 'like', $search."%")
-                        ->get();
-        }else{
-            $cars = Car::all();
-        }
-        $data = compact('cars','search');
+        $name = $request->name;
+        $brand = $request->brand;
+        $model = $request->model;
+        $year = $request->year;
+        $fuel = $request->fuel;
+        $transmission = $request->transmission;
+        $cars = Car::where('car_name','like',$name.'%')
+        ->where('brand','like',$brand.'%')
+        ->where('model','like',$model.'%')
+        ->where('model_year','like',$year.'%')
+        ->where('fuel_type','like',$fuel.'%')
+        ->where('transmission','like',$transmission.'%')
+        ->get();
+        $data = compact('cars');
         return view('dashboard')->with($data);
     }
     

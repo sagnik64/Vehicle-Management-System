@@ -130,7 +130,6 @@ class CarTest extends TestCase
             "wheel_base_mm" => 2600
         ]);
         $response->assertStatus(201);
-        $response->assertSame();
     }
 
     public function test_database()

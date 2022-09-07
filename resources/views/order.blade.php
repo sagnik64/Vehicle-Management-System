@@ -29,12 +29,12 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="">Vehicle Type</label>
-                <input type="text" name="vehicle_type" class="form-control" value="{{ $request->vehicle_type ?? '' }}" readonly/>
+                <input type="text" name="vehicle_type" class="form-control" value="car" readonly/>
             </div>
         </div>
         <div class="row">
             <div class="form-group col-md-6 required">
-                <label for="">Customer User ID'</label>
+                <label for="">Customer User ID</label>
                 <input type="text" name='customer_user_id'id="" class="form-control" value=""/>
     
             </div>

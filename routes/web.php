@@ -22,7 +22,9 @@ Route::get('/', function () {
 
 Route::get('/register',[RegistrationController::class,'index']);
 Route::post('/register',[RegistrationController::class,'register']);
-Route::view('/order','order')->name('order');
+Route::get('/order',function() {
+    return view('order');
+})->name('order');
 
 Route::get('login', function() {
     if(session()->has('email')) {
