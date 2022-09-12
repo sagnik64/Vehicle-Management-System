@@ -9,28 +9,30 @@ class Car extends Model
 {
     protected $fillable = [
         'car_name',
-        'price_rs',
         'brand',
+        'transmission',
         'model',
         'model_year',
-        'colors_available',
-        'wheel_count',
-        'fuel_type',
-        'record_status',
-        'first_production_year',
-        'transmission',
-        'engine_displacement_cc',
         'seating_capacity',
+        'fuel_type',
         'fuel_tank_capacity_litres',
-        'body_type',
         'mileage_kmpl',
+        'engine_displacement_cc',
+        'body_type',
+        'wheel_base_mm',
         'rpm',
         'max_power_bhp',
         'max_torque_nm',
         'length_mm',
         'width_mm',
         'height_mm',
-        'wheel_base_mm'
+        'vin',
+        'engine_number',
+        'price_rs',
+        'colors_available',
+        'wheel_count',
+        'record_status',
+        'user_id',
 
     ];
     protected $casts = [
@@ -39,7 +41,6 @@ class Car extends Model
         'integer' => 'colors_available',
         'integer' => 'wheel_count',
         'integer' => 'record_status',
-        'decimal' => 'first_production_year',
         'integer' => 'engine_displacement_cc',
         'integer' => 'seating_capacity',
         'decimal' => 'fuel_tank_capacity_litres',
@@ -50,7 +51,8 @@ class Car extends Model
         'integer' => 'length_mm',
         'integer' => 'width_mm',
         'integer' => 'height_mm',
-        'integer' => 'wheel_base_mm'
+        'integer' => 'wheel_base_mm',
+        'integer' => 'user_id'
     ];
     use HasFactory;
 }

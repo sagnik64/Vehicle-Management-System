@@ -45,9 +45,9 @@ class UserController extends Controller
         }
         return response()->json([
             "status" => "fail",
-            "code" => 400,
+            "code" => 200,
             "message" => "User data not found"
-        ], 400);
+        ], 200);
     }
 
     /**
@@ -83,16 +83,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
         $user = User::create($request->all());
 
         if ($user) {
-            $userMatchedWithEmail = User::where('email', '=', $request->email)->get();
-            $userAdmin = User::where('user_type', '=', 3)->get();
-            $userAdminFind = User::find($userAdmin[0]->id);
-            $userCustomer = User::find($userMatchedWithEmail[0]->id);
-            SendRegisteredCustomerMailJob::dispatch($userCustomer)->delay(now()->addSeconds(1));
-            SendLeadsToAdminMailJob::dispatch($userAdminFind, $userCustomer)->delay(now()->addSeconds(1));
+            // $userMatchedWithEmail = User::where('email', '=', $request->email)->get();
+            // $userAdmin = User::where('user_type', '=', 3)->get();
+            // if(count($userAdmin)>0) {
+            //     $userAdminFind = User::find($userAdmin[0]->id);
+            //     $userCustomer = User::find($userMatchedWithEmail[0]->id);
+            //     SendRegisteredCustomerMailJob::dispatch($userCustomer)->delay(now()->addSeconds(1));
+            //     SendLeadsToAdminMailJob::dispatch($userAdminFind, $userCustomer)->delay(now()->addSeconds(1));
+            // }
             return response()->json([
                 "success" => "true",
                 "code" => 201,

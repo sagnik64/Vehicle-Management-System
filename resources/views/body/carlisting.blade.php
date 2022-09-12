@@ -78,19 +78,23 @@
                             
                             <?php
                             $matched = false;
-                            for($i=0;$i<count(session('userCartVID'));$i++) {
+                            if(count(session('userCartVID'))) {
+                                for($i=0;$i<count(session('userCartVID'));$i++) {
                                 $vehicleID = session('userCartVID')[$i];
-                                if($vehicleID == $car->id) {
-                                    echo '<input type="hidden" name="status" value="1">';
-                                    echo '<button class="btn  btn-danger">';
-                                    echo "Remove from Cart";
-                                    echo "</button>"; 
-                                    $S=1;       
+                                if($vehicleID == $car->id) {       
                                     $matched = true;
                                     break;
+                                    }
                                 }
+                            } 
+                            if($matched == true) {
+                                echo '<input type="hidden" name="status" value="1">';
+                                echo '<button class="btn  btn-danger">';
+                                echo "Remove from Cart";
+                                echo "</button>"; 
+                                $S=1;
                             }
-                            if($matched == false) {
+                            else {
                                 echo '<input type="hidden" name="status" value="0">';
                                 echo '<button class="btn  btn-primary">';
                                 echo "Add to Cart";
