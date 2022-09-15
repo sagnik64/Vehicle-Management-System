@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Controller;
 
 use Tests\TestCase;
 use App\Models\Cart;
@@ -26,6 +26,24 @@ class CartControllerTest extends TestCase
         ])->assertCreated();
         
         $this->get('api/cart')->assertStatus(200);
+    }
+
+    public function test_get_all_cart_count() {
+        $this->post('api/cart',[
+            'user_id' => 1,
+            'vehicle_type_id' => 1,
+            'vehicle_type' => 'car',
+            'status' => 0
+        ])->assertCreated();
+        $this->post('api/cart',[
+            'user_id' => 1,
+            'vehicle_type_id' => 2,
+            'vehicle_type' => 'car',
+            'status' => 0
+        ])->assertCreated();
+        
+        $response = $this->get('api/cart');
+        $this->assertEquals(2,count($response->json()['data']));    
     }
 
     public function test_get_cart_by_user_id() {

@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Controller;
 
 use App\Models\Car;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CarTest extends TestCase
+class CarControllerTest extends TestCase
 {
     use RefreshDatabase;
     public function test_car_duplication()
