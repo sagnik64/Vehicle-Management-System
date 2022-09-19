@@ -289,7 +289,7 @@ class UserControllerTest extends TestCase
         ])->assertStatus(201);
     }
 
-    public function test_user_login() {
+    public function test_user_login_as_customer_user() {
 
         $email1 = $this->faker()->safeEmail();
         $email2 = $this->faker()->safeEmail();
@@ -332,19 +332,123 @@ class UserControllerTest extends TestCase
         ])->assertCreated();
    
         
-        // TODO: Receiving status code of 302
-        // ! Not redirecting correctly
-        // Session::start();
-    
-        // $this->post('user_login',[
-        //     '_token' => Session::token(),
-        //     'email' => $email1,
-        //     'password' => $password1
-        // ])
-        // ->assertOk()
-        // ->assertRedirect('profile/customer');
+        $this->get('/login')->assertViewIs('login');
+        
+        Session::start();
+        $response = $this->call('POST', 'user_login', [
+            'email' => $email1,
+            'password' => $password1,
+            '_token' => csrf_token()
+        ])->assertRedirect('profile/customer');   
     }
 
+    public function test_user_login_as_dealer_user() {
+
+        $email1 = $this->faker()->safeEmail();
+        $email2 = $this->faker()->safeEmail();
+        $email3 = $this->faker()->safeEmail();
+        $password1 = $this->faker()->randomNumber(5);
+        $password2 = $this->faker()->randomNumber(5);
+        $password3 = $this->faker()->randomNumber(5);
+
+        $user1 = $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123450' ,
+            'address' => $this->faker()->address(),
+            'email' => $email1,
+            'password' => $password1,
+            'user_type' => 1,
+            'interest' => 1
+        ])->assertCreated();
+        
+        $user2 = $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123450' ,
+            'address' => $this->faker()->address(),
+            'email' => $email2,
+            'password' => $password2,
+            'user_type' => 2,
+            'interest' => 1
+        ])->assertCreated();;
+        
+        $user3 = $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123450' ,
+            'address' => $this->faker()->address(),
+            'email' => $email3,
+            'password' => $password3,
+            'user_type' => 3,
+            'interest' => 1
+        ])->assertCreated();
+   
+        
+        $this->get('/login')->assertViewIs('login');
+        
+        Session::start();
+        $response = $this->call('POST', 'user_login', [
+            'email' => $email2,
+            'password' => $password2,
+            '_token' => csrf_token()
+        ])->assertRedirect('profile/dealer');   
+    }
+
+    public function test_user_login_as_admin_user() {
+
+        $email1 = $this->faker()->safeEmail();
+        $email2 = $this->faker()->safeEmail();
+        $email3 = $this->faker()->safeEmail();
+        $password1 = $this->faker()->randomNumber(5);
+        $password2 = $this->faker()->randomNumber(5);
+        $password3 = $this->faker()->randomNumber(5);
+
+        $user1 = $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123450' ,
+            'address' => $this->faker()->address(),
+            'email' => $email1,
+            'password' => $password1,
+            'user_type' => 1,
+            'interest' => 1
+        ])->assertCreated();
+        
+        $user2 = $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123450' ,
+            'address' => $this->faker()->address(),
+            'email' => $email2,
+            'password' => $password2,
+            'user_type' => 2,
+            'interest' => 1
+        ])->assertCreated();;
+        
+        $user3 = $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123450' ,
+            'address' => $this->faker()->address(),
+            'email' => $email3,
+            'password' => $password3,
+            'user_type' => 3,
+            'interest' => 1
+        ])->assertCreated();
+   
+        
+        $this->get('/login')->assertViewIs('login');
+        
+        Session::start();
+        $response = $this->call('POST', 'user_login', [
+            'email' => $email3,
+            'password' => $password3,
+            '_token' => csrf_token()
+        ])->assertRedirect('profile/admin');   
+    }
+
+    
     public function test_updates_existing_user_by_id()
     {
         
