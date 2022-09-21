@@ -90,8 +90,17 @@ class OrderController extends Controller
     public function update(Request $request, $ID)
     {
         $order = Order::find($ID);
+
+        if($order == NULL) {
+            return response()->json([
+                "success" => "false",
+                "code" => 400,
+                "message" => "No record found of order data with ID = $ID"
+            ], 400);
+        }
+
         $order->update($request->all());
-        if ($order) {
+        if ($order != NULL) {
             return response()->json([
                 "success" => "true",
                 "code" => 200,
@@ -99,11 +108,10 @@ class OrderController extends Controller
                 "data" => $order
             ], 200);
         }
-
         return response()->json([
             "success" => "false",
-            "code" => 400,
+            "code" => 500,
             "message" => "Failed to update order data with ID = $ID"
-        ], 400);
+        ], 500);
     }
 }

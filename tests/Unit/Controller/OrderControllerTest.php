@@ -231,7 +231,11 @@ class OrderControllerTest extends TestCase
 
     public function test_stores_new_order_json_structure()
     {
-        $this->post('api/order', [
+        //Preparation
+            //Empty Database
+        
+        //Action
+        $response = $this->post('api/order',[
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -240,18 +244,24 @@ class OrderControllerTest extends TestCase
             'transaction_reference' => 'ACBD1234',
             'added_on' => '2022-08-29',
             'status' => '1'
-        ])->assertStatus(201)
-            ->assertJsonStructure([
-                'success',
-                'code',
-                'message',
-                'data'
-            ]);
+        ]);
+
+        //Assertion
+        $response->assertJsonStructure([
+            'success',
+            'code',
+            'message',
+            'data'
+        ]);
     }
 
     public function test_stores_new_order_json_fragment()
     {
-        $this->post('api/order', [
+        //Preparation
+            //Empty Database
+        
+        //Action
+        $response = $this->post('api/order', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -260,19 +270,23 @@ class OrderControllerTest extends TestCase
             'transaction_reference' => 'ACBD1234',
             'added_on' => '2022-08-29',
             'status' => '1'
-        ])->assertStatus(201)
-            ->assertJsonFragment([
-                'success' => 'true',
-                'code' => 201,
-                'message' => 'Order data saved successfully'
-            ]);
+        ]);
+
+        //Assertion
+        $response->assertJsonFragment([
+            'success' => 'true',
+            'code' => 201,
+            'message' => 'Order data saved successfully'
+        ]);
     }
 
     public function test_updates_existing_order_by_id_route()
     {
+        //Preparation
         $this->setUpMockDatabase();
 
-        $this->put('api/order/1', [
+        //Action
+        $response1 = $this->put('api/order/1', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -281,9 +295,9 @@ class OrderControllerTest extends TestCase
             'transaction_reference' => 'ACBD1234',
             'added_on' => '2022-08-29',
             'status' => '1'
-        ])->assertStatus(200);
+        ]);
 
-        $this->put('api/order/1000', [
+        $response2 = $this->put('api/order/1000', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -292,9 +306,9 @@ class OrderControllerTest extends TestCase
             'transaction_reference' => 'ACBD1234',
             'added_on' => '2022-08-29',
             'status' => '1'
-        ])->assertStatus(500);
+        ]);
 
-        $this->put('api/order/one', [
+        $response3 = $this->put('api/order/one', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -303,14 +317,21 @@ class OrderControllerTest extends TestCase
             'transaction_reference' => 'ACBD1234',
             'added_on' => '2022-08-29',
             'status' => '1'
-        ])->assertStatus(500);
+        ]);
+
+        //Assertion
+        $response1->assertStatus(200);
+        $response2->assertStatus(400);
+        $response3->assertStatus(400);
     }
 
     public function test_updates_existing_order_by_id_json_count()
     {
+        //Preparation
         $this->setUpMockDatabase();
 
-        $this->put('api/order/1', [
+        //Action
+        $response = $this->put('api/order/1', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -319,14 +340,19 @@ class OrderControllerTest extends TestCase
             'transaction_reference' => 'ACBD1234',
             'added_on' => '2022-08-29',
             'status' => '1'
-        ])->assertJsonCount(4);
+        ]);
+        
+        //Assertion
+        $response->assertJsonCount(4);
     }
 
     public function test_updates_existing_order_by_id_json_structure()
     {
+        //Preparation
         $this->setUpMockDatabase();
 
-        $this->put('api/order/1', [
+        //Action
+        $response = $this->put('api/order/1', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -335,7 +361,10 @@ class OrderControllerTest extends TestCase
             'transaction_reference' => 'ACBD1234',
             'added_on' => '2022-08-29',
             'status' => '1'
-        ])->assertJsonStructure([
+        ]);
+        
+        //Assertion
+        $response->assertJsonStructure([
             'success',
             'code',
             'message',
@@ -345,9 +374,11 @@ class OrderControllerTest extends TestCase
 
     public function test_updates_existing_order_by_id_json_fragment()
     {
+        //Preparation
         $this->setUpMockDatabase();
 
-        $this->put('api/order/1', [
+        //Action
+        $response = $this->put('api/order/1', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -356,7 +387,10 @@ class OrderControllerTest extends TestCase
             'transaction_reference' => 'ACBD1234',
             'added_on' => '2022-08-29',
             'status' => '1'
-        ])->assertJsonFragment([
+        ]);
+        
+        //Assertion
+        $response->assertJsonFragment([
             'success' => 'true',
             'code' => 200,
             'message' => 'Order data data with ID = 1 updated successfully'
