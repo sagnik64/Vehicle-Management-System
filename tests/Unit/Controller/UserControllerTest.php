@@ -14,9 +14,10 @@ class UserControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    public function test_get_all_users_route() {
+    public function test_get_all_users_route()
+    {
         
-        $this->post('api/users',[
+        $this->post('api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => "9988123450" ,
@@ -26,7 +27,7 @@ class UserControllerTest extends TestCase
             'user_type' => 1,
             'interest' => 1
         ])->assertCreated();
-        $this->post('api/users',[
+        $this->post('api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => "9988123459" ,
@@ -40,7 +41,8 @@ class UserControllerTest extends TestCase
         $this->get('api/users')->assertStatus(200);
     }
 
-    public function test_get_all_users_json_count() {
+    public function test_get_all_users_json_count()
+    {
         
         $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -54,12 +56,12 @@ class UserControllerTest extends TestCase
         ]);
         
         $this
-            ->call('GET','api/users')
+            ->call('GET', 'api/users')
             ->assertOk()
-            ->assertJsonCount(4);    
-            
+            ->assertJsonCount(4);
     }
-    public function test_get_all_users_json_structure() {
+    public function test_get_all_users_json_structure()
+    {
         
         $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -73,17 +75,18 @@ class UserControllerTest extends TestCase
         ]);
         
         $this
-            ->call('GET','api/users')
+            ->call('GET', 'api/users')
             ->assertOk()
             ->assertJsonStructure([
                 'success',
                 'code',
                 'message',
                 'data'
-            ]);  
+            ]);
     }
 
-    public function test_get_all_users_json_fragment() {
+    public function test_get_all_users_json_fragment()
+    {
         
         $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -97,17 +100,17 @@ class UserControllerTest extends TestCase
         ]);
         
         $this
-            ->call('GET','api/users')
+            ->call('GET', 'api/users')
             ->assertOk()
             ->assertJsonFragment([
                 'phone' => "9988123450",
                 'user_type' => 1,
                 'interest' => 1
-            ]);    
-            
+            ]);
     }
 
-    public function test_get_all_users_json_missing() {
+    public function test_get_all_users_json_missing()
+    {
         
         $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -121,16 +124,17 @@ class UserControllerTest extends TestCase
         ]);
         
         $this
-            ->call('GET','api/users')
+            ->call('GET', 'api/users')
             ->assertOk()
             ->assertJsonMissing([
                 'phone' => '12345',
                 'user_type' => -1,
                 'interest' => -1
-            ]);    
+            ]);
     }
 
-    public function test_get_user_by_id_route() {
+    public function test_get_user_by_id_route()
+    {
         
         $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -144,11 +148,12 @@ class UserControllerTest extends TestCase
         ]);
         
         $this
-            ->call('GET','api/users/1')
-            ->assertStatus(200);    
+            ->call('GET', 'api/users/1')
+            ->assertStatus(200);
     }
 
-    public function test_get_all_admin_users() {
+    public function test_get_all_admin_users()
+    {
         
         $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -182,15 +187,16 @@ class UserControllerTest extends TestCase
         ]);
         
         $this
-            ->call('GET','api/users?type=admin')
+            ->call('GET', 'api/users?type=admin')
             ->assertStatus(200)
-            ->assertJsonCount(4) 
+            ->assertJsonCount(4)
             ->assertJsonFragment([
                 'user_type' => 3
-            ]);   
+            ]);
     }
 
-    public function test_get_all_dealer_users() {
+    public function test_get_all_dealer_users()
+    {
         
         $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -224,15 +230,16 @@ class UserControllerTest extends TestCase
         ]);
         
         $this
-            ->call('GET','api/users?type=dealer')
+            ->call('GET', 'api/users?type=dealer')
             ->assertStatus(200)
-            ->assertJsonCount(4) 
+            ->assertJsonCount(4)
             ->assertJsonFragment([
                 'user_type' => 2
-            ]);   
+            ]);
     }
 
-    public function test_get_all_customer_users() {
+    public function test_get_all_customer_users()
+    {
         
         $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -266,13 +273,13 @@ class UserControllerTest extends TestCase
         ]);
         
         $this
-            ->call('GET','api/users?type=customer')
+            ->call('GET', 'api/users?type=customer')
             ->assertStatus(200)
-            ->assertJsonCount(4) 
+            ->assertJsonCount(4)
             ->assertJsonFragment([
                 'user_type' => 1
-            ]);   
-    }    
+            ]);
+    }
 
     public function test_registers_new_user()
     {
@@ -289,7 +296,8 @@ class UserControllerTest extends TestCase
         ])->assertStatus(201);
     }
 
-    public function test_user_login_as_customer_user() {
+    public function test_user_login_as_customer_user()
+    {
 
         $email1 = $this->faker()->safeEmail();
         $email2 = $this->faker()->safeEmail();
@@ -318,7 +326,8 @@ class UserControllerTest extends TestCase
             'password' => $password2,
             'user_type' => 2,
             'interest' => 1
-        ])->assertCreated();;
+        ])->assertCreated();
+        ;
         
         $user3 = $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -339,10 +348,11 @@ class UserControllerTest extends TestCase
             'email' => $email1,
             'password' => $password1,
             '_token' => csrf_token()
-        ])->assertRedirect('profile/customer');   
+        ])->assertRedirect('profile/customer');
     }
 
-    public function test_user_login_as_dealer_user() {
+    public function test_user_login_as_dealer_user()
+    {
 
         $email1 = $this->faker()->safeEmail();
         $email2 = $this->faker()->safeEmail();
@@ -371,7 +381,8 @@ class UserControllerTest extends TestCase
             'password' => $password2,
             'user_type' => 2,
             'interest' => 1
-        ])->assertCreated();;
+        ])->assertCreated();
+        ;
         
         $user3 = $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -392,10 +403,11 @@ class UserControllerTest extends TestCase
             'email' => $email2,
             'password' => $password2,
             '_token' => csrf_token()
-        ])->assertRedirect('profile/dealer');   
+        ])->assertRedirect('profile/dealer');
     }
 
-    public function test_user_login_as_admin_user() {
+    public function test_user_login_as_admin_user()
+    {
 
         $email1 = $this->faker()->safeEmail();
         $email2 = $this->faker()->safeEmail();
@@ -424,7 +436,8 @@ class UserControllerTest extends TestCase
             'password' => $password2,
             'user_type' => 2,
             'interest' => 1
-        ])->assertCreated();;
+        ])->assertCreated();
+        ;
         
         $user3 = $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -445,7 +458,7 @@ class UserControllerTest extends TestCase
             'email' => $email3,
             'password' => $password3,
             '_token' => csrf_token()
-        ])->assertRedirect('profile/admin');   
+        ])->assertRedirect('profile/admin');
     }
 
     
@@ -474,7 +487,7 @@ class UserControllerTest extends TestCase
             'interest' => 1
         ])
         ->assertStatus(200)
-        ->assertJsonCount(4) 
+        ->assertJsonCount(4)
         ->assertJsonFragment([
             'phone' => "9988123880"
         ]);

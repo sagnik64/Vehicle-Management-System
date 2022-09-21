@@ -41,7 +41,7 @@ class CreateCarsTable extends Migration
             $table->integer('record_status')->default(1);
             $table->integer('user_id')->nullable();
             $table->timestamps();
-            });
+        });
     }
 
     /**

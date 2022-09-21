@@ -3,8 +3,11 @@
 
 You have successfully registered in Vehicle Management System.
 We see your interest is in
-<?php if($user->interest==1) echo "<strong>car.</strong><br>";
-else echo "<strong>bike.<strong><br>"; ?>
+<?php if ($user->interest==1) {
+    echo "<strong>car.</strong><br>";
+} else {
+    echo "<strong>bike.<strong><br>";
+} ?>
 We hope to contact you soon for more information.
 
 @component('mail::button', ['url' => ''])

@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 
 class RegistrationController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('registration-form');
     }
     
-    public function register(Request $req){
+    public function register(Request $req)
+    {
         $req->validate([
             'first_name'=>'required|string',
             'last_name'=>'required|string',
@@ -33,12 +35,10 @@ class RegistrationController extends Controller
         $user->user_type = 1;
         $result = $user->save();
     
-        if($result){
+        if ($result) {
             return ["Result"=>"User Added Successfully."];
-        }
-        else{
+        } else {
             return ["Result"=>"User Not Added."];
         }
     }
-
 }

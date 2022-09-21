@@ -30,14 +30,15 @@ class CreateBikesTable extends Migration
             $table->string('max_power');
             $table->string('max_torque');
             $table->string('speedometer_type');
-            $table->string('odometer_type');            
+            $table->string('odometer_type');
             $table->integer('width');
             $table->integer('length');
             $table->integer('height');
             $table->integer('wheel_base');
             $table->integer('on_road_price');
             $table->integer('dealer_id');
-            $table->integer('record_status');;
+            $table->integer('record_status');
+            ;
             $table->timestamps();
         });
     }

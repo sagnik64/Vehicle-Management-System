@@ -12,21 +12,22 @@ class OrderController extends Controller
      * @param $request Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index()
+    {
         $order = Order::all();
-        if(!$order ->isEmpty()) {
+        if (!$order ->isEmpty()) {
             return response()->json([
                 "success" => "true",
                 "code" => 200,
                 "message" => "Order data found",
-                "data" => $order 
-            ],200);
+                "data" => $order
+            ], 200);
         }
         return response()->json([
             "status" => "true",
             "code" => 200,
             "message" => "No records found"
-        ],200);
+        ], 200);
     }
 
     /**
@@ -34,7 +35,8 @@ class OrderController extends Controller
      * @param $ID id attribute of the orders table
      * @return \Illuminate\Http\Response
      */
-    public function getOrder($ID) {
+    public function getOrder($ID)
+    {
         $order = Order::find($ID);
         if ($order) {
             return response()->json([
@@ -53,27 +55,28 @@ class OrderController extends Controller
 
     /**
      * Create and store new order in database
-     * 
+     *
      * @Request $request request body
-     * 
+     *
      * @return response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         // return $request->all();
         $order = Order::create($request->all());
-        if($order) {
+        if ($order) {
             return response()->json([
                 "success" => "true",
                 "code" => 201,
                 "message" => "Order data saved successfully",
                 "data" => $order
-            ],201);
+            ], 201);
         }
         return response()->json([
             "success" => "false",
             "code" => 400,
             "message" => "Failed to save order data"
-        ],400);
+        ], 400);
     }
 
     /**
@@ -84,7 +87,8 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $ID) {
+    public function update(Request $request, $ID)
+    {
         $order = Order::find($ID);
         $order->update($request->all());
         if ($order) {

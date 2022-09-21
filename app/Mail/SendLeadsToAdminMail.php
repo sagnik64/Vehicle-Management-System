@@ -11,8 +11,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class SendLeadsToAdminMail extends Mailable
 {
     use Queueable, SerializesModels;
-        public User $user1;
-        public User $user2;
+    public User $user1;
+    public User $user2;
     /**
      * Create a new message instance.
      *

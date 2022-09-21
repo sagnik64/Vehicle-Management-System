@@ -20,14 +20,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/register',[RegistrationController::class,'index']);
-Route::post('/register',[RegistrationController::class,'register']);
-Route::get('/order',function() {
+Route::get('/register', [RegistrationController::class,'index']);
+Route::post('/register', [RegistrationController::class,'register']);
+Route::get('/order', function () {
     return view('order');
 })->name('order');
 
-Route::get('login', function() {
-    if(session()->has('email')) {
+Route::get('login', function () {
+    if (session()->has('email')) {
         return redirect('profile/customer');
     }
     return view('login');
@@ -42,7 +42,7 @@ Route::get('logout', function () {
     return redirect('login');
 });
 
-Route::get('profile/customer',[CarController::class,'carsCustomer'])->name('profile/customer');
+Route::get('profile/customer', [CarController::class,'carsCustomer'])->name('profile/customer');
 
 Route::view('visitor', 'profile/visitor');
 // Route::view('profile/customer', 'profile/customer');
@@ -51,8 +51,8 @@ Route::view('profile/admin', 'profile/admin');
 
 Route::post('user_login', [UserController::class, 'userLogin']);
 
-Route::get('dashboard',[CarController::class,'carsDashboard']);
-Route::post('getcar',[CarController::class,'carsDashboard']);
+Route::get('dashboard', [CarController::class,'carsDashboard']);
+Route::post('getcar', [CarController::class,'carsDashboard']);
 
 
-Route::view('mycart','profile.mycart');
+Route::view('mycart', 'profile.mycart');

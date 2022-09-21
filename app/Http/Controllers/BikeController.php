@@ -16,49 +16,53 @@ class BikeController extends Controller
      * create function adds all the json data passed from postman to bike variable
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory in json format
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         
         $bike = Bike::create($request->all());
 
-        if($bike) {
+        if ($bike) {
             return response()->json([
                 "success" => "true",
                 "code" => 201,
                 "message" => "Bike data saved successfully",
                 "data" => $bike
-            ],201);
+            ], 201);
         }
         return response()->json([
             "success" => "false",
             "code" => 400,
             "message" => "Failed to save Bike data."
-            ],400);
+            ], 400);
     }
 
     /**
      * Shows all bike avialable in database
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
-    public function getAllBikes(){
+    public function getAllBikes()
+    {
         return Bike::all();
     }
 
     /**
-     * Shows All Bike having status code 1 i.e those are Active 
+     * Shows All Bike having status code 1 i.e those are Active
      * @return \Illuminate\Database\Eloquent\Collection<mixed, \App\Models\Bike>
      */
-    public function getAllActiveBikes(){
+    public function getAllActiveBikes()
+    {
         return Bike::all()
-        ->where('record_status','=', 1);
+        ->where('record_status', '=', 1);
     }
 
     /**
     * Shows All Bike having status code 2 i.e those are Inactive
     * @return \Illuminate\Database\Eloquent\Collection<mixed, \App\Models\Bike>
     */
-    public function getAllInactiveBikes(){
+    public function getAllInactiveBikes()
+    {
         return Bike::all()
-        ->where('record_status','=', 2);
+        ->where('record_status', '=', 2);
     }
     
     /**
@@ -67,7 +71,8 @@ class BikeController extends Controller
     * @param mixed $id Bike Id
     * @return mixed Collection type id specific Bike Detail
     */
-    public function getbyBikeId($id){
+    public function getbyBikeId($id)
+    {
         return Bike::find($id);
     }
     
@@ -78,9 +83,10 @@ class BikeController extends Controller
      * @param mixed $req Bikename
      * @return mixed Collection type Bike Detail
      */
-    public function getbyBikeName($req){
-        return Bike::where('bike_name','like','%'.$req.'%')
-        ->where('record_status','=', 1)
+    public function getbyBikeName($req)
+    {
+        return Bike::where('bike_name', 'like', '%'.$req.'%')
+        ->where('record_status', '=', 1)
         ->get();
     }
     
@@ -92,9 +98,10 @@ class BikeController extends Controller
      * @return mixed Collection type Bike Detail
      */
     
-    public function getbyBrand($req){
-        return Bike::where('brand','like','%'.$req.'%')
-        ->where('record_status','=', 1)
+    public function getbyBrand($req)
+    {
+        return Bike::where('brand', 'like', '%'.$req.'%')
+        ->where('record_status', '=', 1)
         ->get();
     }
     
@@ -108,11 +115,12 @@ class BikeController extends Controller
      * @var maxval holds type casted val2 value
      * @return mixed Collection type Bike Detail
      */
-    public function getbyPrice($val1,$val2){
+    public function getbyPrice($val1, $val2)
+    {
         $minval = (int)$val1;
         $maxval = (int)$val2;
-        return Bike::whereBetween('on_road_price',[$minval,$maxval])
-        ->where('record_status','=', 1)
+        return Bike::whereBetween('on_road_price', [$minval,$maxval])
+        ->where('record_status', '=', 1)
         ->get();
     }
 
@@ -125,13 +133,14 @@ class BikeController extends Controller
      * @var minCC holds type casted val1 value
      * @var maxCC holds type casted val2 value
      * @return mixed Collection type Bike Detail
-     * 
+     *
      */
-    public function getbyCC($val1,$val2){
+    public function getbyCC($val1, $val2)
+    {
         $minCC = (int)$val1;
         $maxCC = (int)$val2;
-        return Bike::whereBetween('engine_displacement_cc',[$minCC,$maxCC])
-        ->where('record_status','=', 1)
+        return Bike::whereBetween('engine_displacement_cc', [$minCC,$maxCC])
+        ->where('record_status', '=', 1)
         ->get();
     }
     
@@ -145,11 +154,12 @@ class BikeController extends Controller
      * @var maxMileage holds type casted val2 value
      * @return mixed Collection type Bike Detail
      */
-    public function getbyMileage($val1,$val2){
+    public function getbyMileage($val1, $val2)
+    {
         $minMilage = (int)$val1;
         $maxMilage = (int)$val2;
-        return Bike::whereBetween('kmpl_mileage',[$minMilage,$maxMilage])
-        ->where('record_status','=', 1)
+        return Bike::whereBetween('kmpl_mileage', [$minMilage,$maxMilage])
+        ->where('record_status', '=', 1)
         ->get();
     }
     
@@ -165,12 +175,13 @@ class BikeController extends Controller
      * @var maxMileage holds type casted val2 value
      * @return mixed — Collection type Bike Detail
      */
-    public function getbyNameYear($val1,$val2){
+    public function getbyNameYear($val1, $val2)
+    {
         $name = $val1;
         $year = (int)$val2;
-        return Bike::where('bike_name','like','%'.$name.'%')
-        ->where('model_year','=', $year)
-        ->where('record_status','=', 1)
+        return Bike::where('bike_name', 'like', '%'.$name.'%')
+        ->where('model_year', '=', $year)
+        ->where('record_status', '=', 1)
         ->get();
     }
 
@@ -184,13 +195,13 @@ class BikeController extends Controller
      * @var newPrice holds type casted val2 value
      * @return mixed — String array type Acknowledgement
      */
-    public function updatePrice($val1,$val2){
+    public function updatePrice($val1, $val2)
+    {
         $newPrice = (int)$val2;
         $data = Bike::find($val1)->update(['on_road_price'=>$newPrice]);
-        if($data){
+        if ($data) {
             return ["Result"=>"Price Updated Successfully."];
-        }
-        else{
+        } else {
             return ["Result"=>"Price Updation Failed."];
         }
     }
@@ -205,13 +216,13 @@ class BikeController extends Controller
      * @var newDealerId holds type casted val2 value
      * @return mixed — String array type Acknowledgement
      */
-    public function updateDealer($val1,$val2){
+    public function updateDealer($val1, $val2)
+    {
         $newDealerId = (int)$val2;
         $data = Bike::find($val1)->update(['dealer_id'=>$newDealerId]);
-        if($data){
+        if ($data) {
             return ["Result"=>"Dealer Updated Successfully."];
-        }
-        else{
+        } else {
             return ["Result"=>"Dealer Updation Failed."];
         }
     }
@@ -226,13 +237,13 @@ class BikeController extends Controller
      * @var newStatusId holds type casted val2 value
      * @return mixed — String array type Acknowledgement
      */
-    public function updateStatus($val1,$val2){
+    public function updateStatus($val1, $val2)
+    {
         $newStatusId = (int)$val2;
         $data = Bike::find($val1)->update(['record_status'=>$newStatusId]);
-        if($data){
+        if ($data) {
             return ["Result"=>"Status Updated Successfully."];
-        }
-        else{
+        } else {
             return ["Result"=>"Status Updation Failed."];
         }
     }

@@ -12,7 +12,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class CartTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
-    private function setUpDatabase() {
+    private function setUpDatabase()
+    {
         $this->post('/api/cars', [
             "car_name" => "Verna",
             "price_rs" => 1245000,
@@ -72,7 +73,8 @@ class CartTest extends TestCase
         ])->assertCreated();
     }
 
-    private function user_login_as_customer_user() {
+    private function user_login_as_customer_user()
+    {
 
         $email1 = $this->faker()->safeEmail();
         $email2 = $this->faker()->safeEmail();
@@ -101,7 +103,8 @@ class CartTest extends TestCase
             'password' => $password2,
             'user_type' => 2,
             'interest' => 1
-        ])->assertCreated();;
+        ])->assertCreated();
+        ;
         
         $user3 = $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -125,7 +128,8 @@ class CartTest extends TestCase
         ])->assertRedirect('profile/customer');
     }
 
-    private function addToCartMock() {
+    private function addToCartMock()
+    {
         $this->call('POST', route('cart.store'), [
             'user_id' => 1,
             'vehicle_type_id' => 1,
@@ -149,7 +153,7 @@ class CartTest extends TestCase
         $this->user_login_as_customer_user();
         $cars = Car::all();
         $data = compact('cars');
-        $view = $this->view('profile/customer',$data);
+        $view = $this->view('profile/customer', $data);
         $view->assertSee('Add to Cart')->assertDontSee('Remove from Cart');
     }
 
@@ -164,21 +168,22 @@ class CartTest extends TestCase
         
         $cars = Car::all();
         $data = compact('cars');
-        $view = $this->view('profile/customer',$data);
+        $view = $this->view('profile/customer', $data);
         $view->assertSee('Remove from Cart')->assertDontSee('Add to Cart');
     }
     
-    public function test_count_of_all_add_to_cart_buttons_are_according_to_database() {
+    public function test_count_of_all_add_to_cart_buttons_are_according_to_database()
+    {
         $this->setUpDatabase();
 
         $this->user_login_as_customer_user();
 
-        $addedToCartCount = Cart::where('status','=',1)->get()->count();
-        $this->assertEquals(0,$addedToCartCount);
-
+        $addedToCartCount = Cart::where('status', '=', 1)->get()->count();
+        $this->assertEquals(0, $addedToCartCount);
     }
 
-    public function test_count_of_all_remove_from_cart_buttons_are_according_to_database() {
+    public function test_count_of_all_remove_from_cart_buttons_are_according_to_database()
+    {
         $this->setUpDatabase();
 
         //Add two items in cart
@@ -186,11 +191,12 @@ class CartTest extends TestCase
 
         $this->user_login_as_customer_user();
 
-        $addedToCartCount = Cart::where('status','=',1)->get()->count();
-        $this->assertEquals(2,$addedToCartCount);
+        $addedToCartCount = Cart::where('status', '=', 1)->get()->count();
+        $this->assertEquals(2, $addedToCartCount);
     }
 
-    public function test_my_cart_link_shows_list_of_all_cart_items_of_user() {
+    public function test_my_cart_link_shows_list_of_all_cart_items_of_user()
+    {
         $this->setUpDatabase();
 
         //Add two items in cart

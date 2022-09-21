@@ -22,11 +22,12 @@ class SendLeadsToAdminMailJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(User $user1, User $user2) {
+    public function __construct(User $user1, User $user2)
     {
+        {
         $this->user1 = $user1;
         $this->user2 = $user2;
-    }
+        }
     }
 
     /**
@@ -36,6 +37,6 @@ class SendLeadsToAdminMailJob implements ShouldQueue
      */
     public function handle()
     {
-        Mail::to($this->user1->email)->send(new SendLeadsToAdminMail($this->user1,$this->user2));
+        Mail::to($this->user1->email)->send(new SendLeadsToAdminMail($this->user1, $this->user2));
     }
 }

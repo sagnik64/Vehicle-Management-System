@@ -26,7 +26,7 @@ class CreateInvoicesTable extends Migration
             $table->string('transaction_id');
             $table->string('verified_by');
             $table->timestamps();
-        }); 
+        });
     }
 
     /**

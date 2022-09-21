@@ -27,13 +27,17 @@
                 <label for="">Vehicle Type ID</label>
                 <input type="text" name="vehicle_type_id" id="" class="form-control" 
                 value="<?php
-                if (isset($_GET['vehicle_type_id'])) echo $_GET['vehicle_type_id'];
+                if (isset($_GET['vehicle_type_id'])) {
+                    echo $_GET['vehicle_type_id'];
+                }
                 ?>" readonly />
             </div>
             <div class="form-group col-md-6">
                 <label for="">Vehicle Type</label>
                 <input type="text" name="vehicle_type" class="form-control" value="<?php
-                if (isset($_GET['vehicle_type'])) echo $_GET['vehicle_type'];
+                if (isset($_GET['vehicle_type'])) {
+                    echo $_GET['vehicle_type'];
+                }
                 ?>" readonly/>
             </div>
         </div>

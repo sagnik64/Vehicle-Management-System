@@ -11,92 +11,13 @@ class OrderControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    private function setUpMockDatabase() {
+    private function setUpMockDatabase()
+    {
         Order::factory()->times(10)->create();
     }
 
-    public function test_get_all_orders_route()
-    {
-        
-        $this->setUpMockDatabase();
-        
-        $this->get('api/order')->assertStatus(200);
-    }
-
-    public function test_get_all_orders_json_count()
-    {
-        //preparation / prepare
-        $this->setUpMockDatabase();
-        
-        //action / perform
-        $reponse = $this->get('api/order')
-        ->assertOk();
-        
-        //assertion / predict
-        $reponse->assertJsonCount(4);
-    }
-
-    public function test_get_all_orders_json_structure()
-    {
-        $this->setUpMockDatabase();
-        $this->get('api/order')
-        ->assertOk()
-        ->assertJsonStructure([
-            'success',
-            'code',
-            'message',
-            'data'
-        ]);
-    }
-
-    public function test_get_all_orders_json_fragment()
-    {
-        
-        $this->setUpMockDatabase();
-        $this->get('api/order')
-        ->assertOk()
-        ->assertJsonFragment([
-            "success" => "true",
-            "code" => 200,
-            "message" => "Order data found"
-        ]);
-    }
-
-    public function test_get_order_by_id_route() {
-        $this->setUpMockDatabase();
-        $this->get('api/order/2')
-        ->assertStatus(200);
-    }
-
-    public function test_get_order_by_id_json_count() {
-        $this->setUpMockDatabase();
-        $this->get('api/order/2')
-        ->assertJsonCount(4);
-    }
-
-    public function test_get_order_by_id_json_structure() {
-        $this->setUpMockDatabase();
-        $this->get('api/order/2')
-        ->assertJsonStructure([
-            'success',
-            'code',
-            'message',
-            'data'
-        ]);
-    }
-
-    public function test_get_order_by_id_json_fragment() {
-        $this->setUpMockDatabase();
-        $this->get('api/order/2')
-        ->assertJsonFragment([
-            'success' => 'true',
-            'code' => 200,
-            'message' => 'Order data found where ID is equal to 2',
-        ]);
-    }
-
-    public function test_get_order_by_id_json_exact() {
-        $this->post('api/order',[
+    private function setUpMockDatabaseOfTwoOrders() {
+        $this->post('api/order', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -106,8 +27,8 @@ class OrderControllerTest extends TestCase
             'added_on' => '2022-08-29',
             'status' => '1'
         ])->assertCreated();
-        
-        $reponse = $this->post('api/order',[
+
+        $response = $this->post('api/order', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 2,
@@ -118,68 +39,43 @@ class OrderControllerTest extends TestCase
             'status' => '1'
         ])->assertCreated();
 
-        $responseData = $reponse->json()['data'];
-        $responseData['status'] = (int)$responseData['status'];
-
-        $this->get('api/order/2')
-        ->assertExactJson([
-            'success' => 'true',
-            'code' => 200,
-            'message' => 'Order data found where ID is equal to 2',
-            'data' => $responseData
-        ]);
+        return $response;
     }
 
-    public function test_stores_new_order_route() {
-        $this->post('api/order',[
-            'vehicle_type_id' => 1,
-            'vehicle_type' => 'car',
-            'customer_user_id' => 1,
-            'dealer_user_id' => 1,
-            'payment_mode' => 1,
-            'transaction_reference' => 'ACBD1234',
-            'added_on' => '2022-08-29',
-            'status' => '1'
-        ])->assertStatus(201);
+    public function test_get_all_orders_route()
+    {
+        //Preparation
+        $this->setUpMockDatabase();
 
-        //vehicle_type_id missing
-        $this->post('api/order',[
-            'vehicle_type' => 'car',
-            'customer_user_id' => 1,
-            'dealer_user_id' => 1,
-            'payment_mode' => 1,
-            'transaction_reference' => 'ACBD1234',
-            'added_on' => '2022-08-29',
-            'status' => '1'
-        ])->assertStatus(500);
+        //Action       
+        $response = $this->get('api/order');
+        
+        //Assertion
+        $response->assertStatus(200);
     }
 
-    public function test_stores_new_order_json_count() {
-        $this->post('api/order',[
-            'vehicle_type_id' => 1,
-            'vehicle_type' => 'car',
-            'customer_user_id' => 1,
-            'dealer_user_id' => 1,
-            'payment_mode' => 1,
-            'transaction_reference' => 'ACBD1234',
-            'added_on' => '2022-08-29',
-            'status' => '1'
-        ])->assertStatus(201)
-        ->assertJsonCount(4);
+    public function test_get_all_orders_json_count()
+    {
+        //Preparation
+        $this->setUpMockDatabase();
+
+        //Action
+        $reponse = $this->get('api/order');
+
+        //Assertion
+        $reponse->assertJsonCount(4);
     }
 
-    public function test_stores_new_order_json_structure() {
-        $this->post('api/order',[
-            'vehicle_type_id' => 1,
-            'vehicle_type' => 'car',
-            'customer_user_id' => 1,
-            'dealer_user_id' => 1,
-            'payment_mode' => 1,
-            'transaction_reference' => 'ACBD1234',
-            'added_on' => '2022-08-29',
-            'status' => '1'
-        ])->assertStatus(201)
-        ->assertJsonStructure([
+    public function test_get_all_orders_json_structure()
+    {
+        //Preparation
+        $this->setUpMockDatabase();
+        
+        //Action
+        $response = $this->get('api/order');
+            
+        //Assertion    
+        $response->assertJsonStructure([
             'success',
             'code',
             'message',
@@ -187,8 +83,155 @@ class OrderControllerTest extends TestCase
         ]);
     }
 
-    public function test_stores_new_order_json_fragment() {
-        $this->post('api/order',[
+    public function test_get_all_orders_json_fragment()
+    {
+        //Preparation
+        $this->setUpMockDatabase();
+
+        //Action
+        $response = $this->get('api/order');
+            
+        //Assertion
+        $response->assertJsonFragment([
+            "success" => "true",
+            "code" => 200,
+            "message" => "Order data found"
+        ]);
+    }
+
+    public function test_get_order_by_id_route()
+    {
+        //Preparation
+        $this->setUpMockDatabase();
+        
+        //Action
+        $response = $this->get('api/order/2');
+        
+        //Assertion
+        $response->assertStatus(200);
+    }
+
+    public function test_get_order_by_id_json_count()
+    {
+        //Preparation
+        $this->setUpMockDatabase();
+
+        //Action
+        $response = $this->get('api/order/2');
+
+        //Assertion
+        $response->assertJsonCount(4);
+    }
+
+    public function test_get_order_by_id_json_structure()
+    {
+        //Preparation
+        $this->setUpMockDatabase();
+
+        //Action
+        $response = $this->get('api/order/2');
+            
+        //Assertion
+        $response->assertJsonStructure([
+            'success',
+            'code',
+            'message',
+            'data'
+        ]);
+    }
+
+    public function test_get_order_by_id_json_fragment()
+    {
+        //Preparation
+        $this->setUpMockDatabase();
+        
+        //Action
+        $response = $this->get('api/order/2');
+
+        //Assertion
+        $response->assertJsonFragment([
+                'success' => 'true',
+                'code' => 200,
+                'message' => 'Order data found where ID is equal to 2',
+            ]);
+    }
+
+    public function test_get_order_by_id_json_exact()
+    {
+        //Preparation
+        $responseOfPost = $this->setUpMockDatabaseOfTwoOrders();
+        
+        //Action
+        $responseOfPostData = $responseOfPost->json()['data'];
+        $responseOfPostData['status'] = (int)$responseOfPostData['status'];
+        $responseAfterGet = $this->get('api/order/2');
+        
+        //Assertion
+        $responseAfterGet->assertExactJson([
+            'success' => 'true',
+            'code' => 200,
+            'message' => 'Order data found where ID is equal to 2',
+            'data' => $responseOfPostData
+        ]);
+    }
+
+    public function test_stores_new_order_route()
+    {
+        //Preparation
+            //Empty Database
+        
+        //Action
+        $response1 = $this->post('api/order', [
+            'vehicle_type_id' => 1,
+            'vehicle_type' => 'car',
+            'customer_user_id' => 1,
+            'dealer_user_id' => 1,
+            'payment_mode' => 1,
+            'transaction_reference' => 'ACBD1234',
+            'added_on' => '2022-08-29',
+            'status' => '1'
+        ]);
+
+        //vehicle_type_id missing
+        $response2 = $this->post('api/order', [
+            'vehicle_type' => 'car',
+            'customer_user_id' => 1,
+            'dealer_user_id' => 1,
+            'payment_mode' => 1,
+            'transaction_reference' => 'ACBD1234',
+            'added_on' => '2022-08-29',
+            'status' => '1'
+        ]);
+
+        //Assertion
+        $response1->assertStatus(201);
+        $response2->assertStatus(500);
+    }
+
+    public function test_stores_new_order_json_count()
+    {
+        //Preparation
+            //Empty Database
+        
+        //Action
+        $response = $this->post('api/order', [
+            'vehicle_type_id' => 1,
+            'vehicle_type' => 'car',
+            'customer_user_id' => 1,
+            'dealer_user_id' => 1,
+            'payment_mode' => 1,
+            'transaction_reference' => 'ACBD1234',
+            'added_on' => '2022-08-29',
+            'status' => '1'
+        ]);
+        
+        //Assertion
+        $response->assertJsonCount(4);
+    }
+
+    public function test_stores_new_order_json_structure()
+    {
+        $this->post('api/order', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -198,17 +241,38 @@ class OrderControllerTest extends TestCase
             'added_on' => '2022-08-29',
             'status' => '1'
         ])->assertStatus(201)
-        ->assertJsonFragment([
-            'success' => 'true',
-            'code' => 201,
-            'message' => 'Order data saved successfully'
-        ]);
+            ->assertJsonStructure([
+                'success',
+                'code',
+                'message',
+                'data'
+            ]);
     }
 
-    public function test_updates_existing_order_by_id_route() {
+    public function test_stores_new_order_json_fragment()
+    {
+        $this->post('api/order', [
+            'vehicle_type_id' => 1,
+            'vehicle_type' => 'car',
+            'customer_user_id' => 1,
+            'dealer_user_id' => 1,
+            'payment_mode' => 1,
+            'transaction_reference' => 'ACBD1234',
+            'added_on' => '2022-08-29',
+            'status' => '1'
+        ])->assertStatus(201)
+            ->assertJsonFragment([
+                'success' => 'true',
+                'code' => 201,
+                'message' => 'Order data saved successfully'
+            ]);
+    }
+
+    public function test_updates_existing_order_by_id_route()
+    {
         $this->setUpMockDatabase();
 
-        $this->put('api/order/1',[
+        $this->put('api/order/1', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -219,7 +283,7 @@ class OrderControllerTest extends TestCase
             'status' => '1'
         ])->assertStatus(200);
 
-        $this->put('api/order/1000',[
+        $this->put('api/order/1000', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -230,7 +294,7 @@ class OrderControllerTest extends TestCase
             'status' => '1'
         ])->assertStatus(500);
 
-        $this->put('api/order/one',[
+        $this->put('api/order/one', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -242,10 +306,11 @@ class OrderControllerTest extends TestCase
         ])->assertStatus(500);
     }
 
-    public function test_updates_existing_order_by_id_json_count() {
+    public function test_updates_existing_order_by_id_json_count()
+    {
         $this->setUpMockDatabase();
 
-        $this->put('api/order/1',[
+        $this->put('api/order/1', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -257,10 +322,11 @@ class OrderControllerTest extends TestCase
         ])->assertJsonCount(4);
     }
 
-    public function test_updates_existing_order_by_id_json_structure() {
+    public function test_updates_existing_order_by_id_json_structure()
+    {
         $this->setUpMockDatabase();
 
-        $this->put('api/order/1',[
+        $this->put('api/order/1', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -277,10 +343,11 @@ class OrderControllerTest extends TestCase
         ]);
     }
 
-    public function test_updates_existing_order_by_id_json_fragment() {
+    public function test_updates_existing_order_by_id_json_fragment()
+    {
         $this->setUpMockDatabase();
 
-        $this->put('api/order/1',[
+        $this->put('api/order/1', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
@@ -295,5 +362,4 @@ class OrderControllerTest extends TestCase
             'message' => 'Order data data with ID = 1 updated successfully'
         ]);
     }
-    
 }

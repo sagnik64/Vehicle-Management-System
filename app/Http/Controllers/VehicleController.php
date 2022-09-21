@@ -7,28 +7,26 @@ use Illuminate\Http\Request;
 
 class VehicleController extends Controller
 {
-    public function getStatus($ID) {
+    public function getStatus($ID)
+    {
         $vehicle = Vehicle::find($ID);
         $status = '';
-        if($vehicle) {
+        if ($vehicle) {
             $vehicleStatus = $vehicle['status'];
         }
-        if(!$vehicle) {
+        if (!$vehicle) {
+            $status = 'unknown';
+        } else if ($vehicleStatus == 0) {
+            $status = 'unlisted';
+        } else if ($vehicleStatus == 1) {
+            $status = 'send for approval';
+        } else if ($vehicleStatus == 2) {
+            $status = 'approved';
+        } else if ($vehicleStatus == 3) {
+            $status = 'declined/send back to dealer for changes';
+        } else {
             $status = 'unknown';
         }
-        else if($vehicleStatus == 0) {
-            $status = 'unlisted';
-        }
-        else if($vehicleStatus == 1) {
-            $status = 'send for approval';
-        }
-        else if($vehicleStatus == 2) {
-            $status = 'approved';
-        }
-        else if($vehicleStatus == 3) {
-            $status = 'declined/send back to dealer for changes';
-        }
-        else $status = 'unknown';
         if ($vehicle) {
             return response()->json([
                 "success" => "true",
@@ -44,7 +42,8 @@ class VehicleController extends Controller
         ], 404);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $vehicle = Vehicle::create($request->all());
         if ($vehicle) {
             return response()->json([
@@ -61,7 +60,8 @@ class VehicleController extends Controller
         ], 400);
     }
 
-    public function update(Request $request, $ID) {
+    public function update(Request $request, $ID)
+    {
         $vehicle = Vehicle::find($ID);
         $vehicle->update($request->all());
         if ($vehicle) {
@@ -80,7 +80,8 @@ class VehicleController extends Controller
         ], 400);
     }
 
-    public function destroy($ID) {
+    public function destroy($ID)
+    {
         $vehicleFind = Vehicle::find($ID);
         $vehicleDelete = Vehicle::destroy($ID);
         if ($vehicleDelete) {

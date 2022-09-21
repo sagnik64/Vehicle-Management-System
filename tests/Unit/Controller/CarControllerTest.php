@@ -10,7 +10,8 @@ class CarControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    private function setUpMockDatabase() {
+    private function setUpMockDatabase()
+    {
         $this->post('/api/cars', [
             "car_name" => "Verna",
             "price_rs" => 1245000,
