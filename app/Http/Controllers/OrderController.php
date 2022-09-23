@@ -91,7 +91,7 @@ class OrderController extends Controller
     {
         $order = Order::find($ID);
 
-        if($order == NULL) {
+        if ($order == null) {
             return response()->json([
                 "success" => "false",
                 "code" => 400,
@@ -100,7 +100,7 @@ class OrderController extends Controller
         }
 
         $order->update($request->all());
-        if ($order != NULL) {
+        if ($order != null) {
             return response()->json([
                 "success" => "true",
                 "code" => 200,

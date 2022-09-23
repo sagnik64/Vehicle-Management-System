@@ -14,277 +14,218 @@ class UserControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
+    private function setUpMockDatabase() {
+        $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123450' ,
+            'address' => $this->faker()->address(),
+            'email' => $this->faker()->safeEmail(),
+            'password' => $this->faker()->randomNumber(5),
+            'user_type' => 1,
+            'interest' => 1
+        ]);
+        $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123451' ,
+            'address' => $this->faker()->address(),
+            'email' => $this->faker()->safeEmail(),
+            'password' => $this->faker()->randomNumber(5),
+            'user_type' => 2,
+            'interest' => 1
+        ]);
+        $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123452' ,
+            'address' => $this->faker()->address(),
+            'email' => $this->faker()->safeEmail(),
+            'password' => $this->faker()->randomNumber(5),
+            'user_type' => 3,
+            'interest' => 2
+        ]);
+        $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123453' ,
+            'address' => $this->faker()->address(),
+            'email' => $this->faker()->safeEmail(),
+            'password' => $this->faker()->randomNumber(5),
+            'user_type' => 3,
+            'interest' => 2
+        ]);
+        $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123454' ,
+            'address' => $this->faker()->address(),
+            'email' => $this->faker()->safeEmail(),
+            'password' => $this->faker()->randomNumber(5),
+            'user_type' => 3,
+            'interest' => 2
+        ]);
+        $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123455' ,
+            'address' => $this->faker()->address(),
+            'email' => $this->faker()->safeEmail(),
+            'password' => $this->faker()->randomNumber(5),
+            'user_type' => 1,
+            'interest' => 1
+        ]);
+        $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123456' ,
+            'address' => $this->faker()->address(),
+            'email' => $this->faker()->safeEmail(),
+            'password' => $this->faker()->randomNumber(5),
+            'user_type' => 1,
+            'interest' => 1
+        ]);
+    }
+
     public function test_get_all_users_route()
     {
+        //Preparation
+        $this->setUpMockDatabase();
+
+        //Action
+        $response = $this->get('api/users');
         
-        $this->post('api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => "9988123450" ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
-        ])->assertCreated();
-        $this->post('api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => "9988123459" ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
-        ])->assertCreated();
-        
-        $this->get('api/users')->assertStatus(200);
+        //Assertion
+        $response->assertStatus(200);
     }
 
     public function test_get_all_users_json_count()
     {
+        //Preparation
+        $this->setUpMockDatabase();
         
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
-        ]);
-        
-        $this
-            ->call('GET', 'api/users')
-            ->assertOk()
-            ->assertJsonCount(4);
+        //Action
+        $response = $this->get('api/users');
+
+        //Assertion
+        $response->assertJsonCount(4);
     }
     public function test_get_all_users_json_structure()
     {
+        //Preparation
+        $this->setUpMockDatabase();
         
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
+        //Action
+        $response = $this->get('api/users');
+        
+        //Assertion
+        $response->assertJsonStructure([
+            'success',
+            'code',
+            'message',
+            'data'
         ]);
-        
-        $this
-            ->call('GET', 'api/users')
-            ->assertOk()
-            ->assertJsonStructure([
-                'success',
-                'code',
-                'message',
-                'data'
-            ]);
     }
 
     public function test_get_all_users_json_fragment()
     {
+        //Preparation
+        $this->setUpMockDatabase();
         
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
+        //Action
+        $response = $this->get('api/users');
+        
+        //Assertion
+        $response->assertJsonFragment([
+            "success" => "true",
+            "code" => 200,
+            "message" => "User data found"
         ]);
-        
-        $this
-            ->call('GET', 'api/users')
-            ->assertOk()
-            ->assertJsonFragment([
-                'phone' => "9988123450",
-                'user_type' => 1,
-                'interest' => 1
-            ]);
+
     }
 
     public function test_get_all_users_json_missing()
     {
+        //Preparation
+        $this->setUpMockDatabase();
         
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
+        //Action
+        $response = $this->get('api/users');
+
+        //Assertion
+        $response->assertJsonMissing([
+            "status" => "fail",
+            "message" => "User data not found"
         ]);
-        
-        $this
-            ->call('GET', 'api/users')
-            ->assertOk()
-            ->assertJsonMissing([
-                'phone' => '12345',
-                'user_type' => -1,
-                'interest' => -1
-            ]);
     }
 
     public function test_get_user_by_id_route()
     {
+        //Preparation
+        $this->setUpMockDatabase();
         
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
-        ]);
+        //Action
+        $response = $this->get('api/users/1');
         
-        $this
-            ->call('GET', 'api/users/1')
-            ->assertStatus(200);
+        //Assertion    
+        $response->assertStatus(200);
     }
 
     public function test_get_all_admin_users()
     {
+        //Preparation
+        $this->setUpMockDatabase();
+
+        //Action
+        $response = $this->get('api/users?type=admin');
         
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
+        //Assertion 
+        $response
+        ->assertJsonCount(4)
+        ->assertJsonFragment([
+            'user_type' => 3
         ]);
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 2,
-            'interest' => 1
-        ]);
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 3,
-            'interest' => 1
-        ]);
-        
-        $this
-            ->call('GET', 'api/users?type=admin')
-            ->assertStatus(200)
-            ->assertJsonCount(4)
-            ->assertJsonFragment([
-                'user_type' => 3
-            ]);
     }
 
     public function test_get_all_dealer_users()
     {
+        //Preparation
+        $this->setUpMockDatabase();
+
+        //Action
+        $response = $this->get('api/users?type=dealer');
         
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
+        //Assertion 
+        $response
+        ->assertJsonCount(4)
+        ->assertJsonFragment([
+            'user_type' => 2
         ]);
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 2,
-            'interest' => 1
-        ]);
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 3,
-            'interest' => 1
-        ]);
-        
-        $this
-            ->call('GET', 'api/users?type=dealer')
-            ->assertStatus(200)
-            ->assertJsonCount(4)
-            ->assertJsonFragment([
-                'user_type' => 2
-            ]);
     }
 
     public function test_get_all_customer_users()
     {
+        //Preparation
+        $this->setUpMockDatabase();
+
+        //Action
+        $response = $this->get('api/users?type=customer');
         
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
+        //Assertion 
+        $response
+        ->assertJsonCount(4)
+        ->assertJsonFragment([
+            'user_type' => 1
         ]);
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 2,
-            'interest' => 1
-        ]);
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 3,
-            'interest' => 1
-        ]);
-        
-        $this
-            ->call('GET', 'api/users?type=customer')
-            ->assertStatus(200)
-            ->assertJsonCount(4)
-            ->assertJsonFragment([
-                'user_type' => 1
-            ]);
     }
 
     public function test_registers_new_user()
     {
-        
-        $this->post('/api/users', [
+        //Preparation
+            //Empty Database
+
+        //Action    
+        $response = $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => "9988123450" ,
@@ -293,12 +234,15 @@ class UserControllerTest extends TestCase
             'password' => $this->faker()->randomNumber(5),
             'user_type' => 1,
             'interest' => 1
-        ])->assertStatus(201);
+        ]);
+        
+        //Assertion 
+        $response->assertStatus(201);
     }
 
     public function test_user_login_as_customer_user()
     {
-
+        //Preparation
         $email1 = $this->faker()->safeEmail();
         $email2 = $this->faker()->safeEmail();
         $email3 = $this->faker()->safeEmail();
@@ -306,7 +250,7 @@ class UserControllerTest extends TestCase
         $password2 = $this->faker()->randomNumber(5);
         $password3 = $this->faker()->randomNumber(5);
 
-        $user1 = $this->post('/api/users', [
+        $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => '9988123450' ,
@@ -317,7 +261,7 @@ class UserControllerTest extends TestCase
             'interest' => 1
         ])->assertCreated();
         
-        $user2 = $this->post('/api/users', [
+        $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => '9988123450' ,
@@ -327,9 +271,8 @@ class UserControllerTest extends TestCase
             'user_type' => 2,
             'interest' => 1
         ])->assertCreated();
-        ;
         
-        $user3 = $this->post('/api/users', [
+        $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => '9988123450' ,
@@ -340,20 +283,23 @@ class UserControllerTest extends TestCase
             'interest' => 1
         ])->assertCreated();
    
-        
+        //Action
         $this->get('/login')->assertViewIs('login');
-        
         Session::start();
         $response = $this->call('POST', 'user_login', [
             'email' => $email1,
             'password' => $password1,
             '_token' => csrf_token()
-        ])->assertRedirect('profile/customer');
+        ]);
+        
+        //Assertion
+        $response->assertRedirect('profile/customer');
     }
 
     public function test_user_login_as_dealer_user()
     {
 
+        //Preparation
         $email1 = $this->faker()->safeEmail();
         $email2 = $this->faker()->safeEmail();
         $email3 = $this->faker()->safeEmail();
@@ -361,7 +307,7 @@ class UserControllerTest extends TestCase
         $password2 = $this->faker()->randomNumber(5);
         $password3 = $this->faker()->randomNumber(5);
 
-        $user1 = $this->post('/api/users', [
+        $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => '9988123450' ,
@@ -372,7 +318,7 @@ class UserControllerTest extends TestCase
             'interest' => 1
         ])->assertCreated();
         
-        $user2 = $this->post('/api/users', [
+        $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => '9988123450' ,
@@ -382,9 +328,8 @@ class UserControllerTest extends TestCase
             'user_type' => 2,
             'interest' => 1
         ])->assertCreated();
-        ;
         
-        $user3 = $this->post('/api/users', [
+        $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => '9988123450' ,
@@ -395,20 +340,23 @@ class UserControllerTest extends TestCase
             'interest' => 1
         ])->assertCreated();
    
-        
+        //Action
         $this->get('/login')->assertViewIs('login');
-        
         Session::start();
         $response = $this->call('POST', 'user_login', [
             'email' => $email2,
             'password' => $password2,
             '_token' => csrf_token()
-        ])->assertRedirect('profile/dealer');
+        ]);
+        
+        //Assertion
+        $response->assertRedirect('profile/dealer');
     }
 
     public function test_user_login_as_admin_user()
     {
 
+        //Preparation
         $email1 = $this->faker()->safeEmail();
         $email2 = $this->faker()->safeEmail();
         $email3 = $this->faker()->safeEmail();
@@ -416,7 +364,7 @@ class UserControllerTest extends TestCase
         $password2 = $this->faker()->randomNumber(5);
         $password3 = $this->faker()->randomNumber(5);
 
-        $user1 = $this->post('/api/users', [
+        $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => '9988123450' ,
@@ -427,7 +375,7 @@ class UserControllerTest extends TestCase
             'interest' => 1
         ])->assertCreated();
         
-        $user2 = $this->post('/api/users', [
+        $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => '9988123450' ,
@@ -437,9 +385,8 @@ class UserControllerTest extends TestCase
             'user_type' => 2,
             'interest' => 1
         ])->assertCreated();
-        ;
         
-        $user3 = $this->post('/api/users', [
+        $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => '9988123450' ,
@@ -450,33 +397,28 @@ class UserControllerTest extends TestCase
             'interest' => 1
         ])->assertCreated();
    
-        
+        //Action
         $this->get('/login')->assertViewIs('login');
-        
         Session::start();
         $response = $this->call('POST', 'user_login', [
             'email' => $email3,
             'password' => $password3,
             '_token' => csrf_token()
-        ])->assertRedirect('profile/admin');
+        ]);
+        
+        //Assertion
+        $response->assertRedirect('profile/admin');
     }
 
     
     public function test_updates_existing_user_by_id()
     {
         
-        $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => "9988123450" ,
-            'address' => $this->faker()->address(),
-            'email' => $this->faker()->safeEmail(),
-            'password' => $this->faker()->randomNumber(5),
-            'user_type' => 1,
-            'interest' => 1
-        ])->assertStatus(201);
+        //Preparation
+        $this->setUpMockDatabase();
 
-        $this->put('/api/users/1', [
+        //Action
+        $response = $this->put('/api/users/1', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => "9988123880" ,
@@ -485,7 +427,10 @@ class UserControllerTest extends TestCase
             'password' => $this->faker()->randomNumber(5),
             'user_type' => 1,
             'interest' => 1
-        ])
+        ]);
+
+        //Assertion
+        $response
         ->assertStatus(200)
         ->assertJsonCount(4)
         ->assertJsonFragment([

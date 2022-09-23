@@ -45,7 +45,7 @@ class OrderControllerTest extends TestCase
     public function test_get_all_orders_route()
     {
         //Preparation
-        $this->setUpMockDatabase();
+            //Empty Database
 
         //Action       
         $response = $this->get('api/order');
@@ -54,16 +54,16 @@ class OrderControllerTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_get_all_orders_json_count()
+    public function test_get_all_orders_count()
     {
         //Preparation
         $this->setUpMockDatabase();
 
         //Action
-        $reponse = $this->get('api/order');
+        $response = $this->get('api/order');
 
         //Assertion
-        $reponse->assertJsonCount(4);
+        $this->assertEquals(10,count($response->json()['data']));
     }
 
     public function test_get_all_orders_json_structure()

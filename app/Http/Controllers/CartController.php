@@ -91,9 +91,9 @@ class CartController extends Controller
         }
         return response()->json([
             "status" => "true",
-            "code" => 200,
+            "code" => 404,
             "message" => "No records found"
-        ], 200);
+        ], 404);
     }
 
     /**

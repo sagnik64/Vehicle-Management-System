@@ -39,7 +39,7 @@ class CarControllerTest extends TestCase
             "vin" => "1ABCD23EFGH456789",
             "engine_number" => "12ABC34567",
             "user_id" => 2
-        ])->assertCreated();
+        ]);
 
         $this->post('/api/cars', [
             "car_name" => "Venue",
@@ -68,11 +68,15 @@ class CarControllerTest extends TestCase
             "vin" => "1ABCD23EFGH456789",
             "engine_number" => "12ABC34567",
             "user_id" => 2
-        ])->assertCreated();
+        ]);
     }
 
     public function test_car_duplication()
     {
+        //Preparation
+            //Empty Database
+
+        //Action
         $car1 = Car::make([
             "car_name" => "Venue",
             "price_rs" => 1070000,
@@ -129,33 +133,44 @@ class CarControllerTest extends TestCase
             "user_id" => 2
         ]);
 
+        //Assertion
         $this->assertTrue($car1->car_name != $car2->car_name);
     }
 
     public function test_get_all_cars_route()
     {
-        
+        //Preparation
         $this->setUpMockDatabase();
+
+        //Action
+        $response = $this->get('api/cars');
         
-        $this->get('api/cars')->assertStatus(200);
+        //Assertion
+        $response->assertStatus(200);
     }
 
     public function test_get_all_cars_json_count()
     {
+        //Preparation
         $this->setUpMockDatabase();
         
-        $reponse = $this->get('api/cars')
-        ->assertOk();
+        //Action
+        $response = $this->get('api/cars');
         
-        $reponse->assertJsonCount(4);
+        //Assertion
+        $response->assertJsonCount(4);
     }
 
     public function test_get_all_cars_json_structure()
     {
+        //Preparation
         $this->setUpMockDatabase();
-        $this->get('api/cars')
-        ->assertOk()
-        ->assertJsonStructure([
+        
+        //Action
+        $response = $this->get('api/cars');
+        
+        //Assertion
+        $response->assertJsonStructure([
             'success',
             'code',
             'message',
@@ -165,56 +180,42 @@ class CarControllerTest extends TestCase
 
     public function test_get_all_cars_json_fragment()
     {
-        
+        //Preparation
         $this->setUpMockDatabase();
-        $this->get('api/cars')
-        ->assertOk()
-        ->assertJsonFragment([
+        
+        //Action
+        $response = $this->get('api/cars');
+        
+        //Assertion
+        $response->assertJsonFragment([
             "success" => "true",
             "code" => 200,
             "message" => "Car data found"
         ]);
+        
     }
 
     public function test_delete_car()
     {
-        $car = Car::make([
-            "car_name" => "Venue",
-            "price_rs" => 1070000,
-            "brand" => "Hyundai",
-            "model" => "SX",
-            "model_year" => 2022,
-            "colors_available" => 7,
-            "wheel_count" => 4,
-            "fuel_type" => "Petrol",
-            "record_status" => 1,
-            "first_production_year" => 2019,
-            "transmission" => "Manual",
-            "engine_displacement_cc" => 1197,
-            "seating_capacity" => 5,
-            "fuel_tank_capacity_litres" => 45,
-            "body_type" => "SUV",
-            "mileage_kmpl" => 16,
-            "rpm" => 6000,
-            "max_power_bhp" => 82,
-            "max_torque_nm" => 113.8,
-            "length_mm" => 3995,
-            "width_mm" => 1770,
-            "height_mm" => 1617,
-            "wheel_base_mm" => 2500,
-            "vin" => "1ABCD23EFGH456789",
-            "engine_number" => "12ABC34567",
-            "user_id" => 2
-        ]);
+        //Preparation
+        $this->setUpMockDatabase();
+
+        //Action
         $car = Car::first();
         if ($car) {
             $car->delete();
         }
+
+        //Assertion
         $this->assertTrue(true);
     }
 
     public function test_stores_new_car()
     {
+        //Preparation
+            //Empty Database
+
+        //Action
         $response = $this->post('/api/cars', [
             "car_name" => "Verna",
             "price_rs" => 1245000,
@@ -243,11 +244,17 @@ class CarControllerTest extends TestCase
             "engine_number" => "12ABC34567",
             "user_id" => 2
         ]);
+
+        //Assertion
         $response->assertStatus(201);
     }
 
     public function test_database()
     {
+        //Preparation
+            //Empty Database
+
+        //Action
         $this->post('/api/cars', [
             "car_name" => "Verna",
             "price_rs" => 1245000,
@@ -277,6 +284,7 @@ class CarControllerTest extends TestCase
             "user_id" => 2
         ]);
 
+        //Assertion
         $this->assertDatabaseHas('cars', [
             'car_name' => 'Verna'
         ]);
