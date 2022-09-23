@@ -14,7 +14,8 @@ class UserControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    private function setUpMockDatabase() {
+    private function setUpMockDatabase()
+    {
         $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
@@ -141,7 +142,6 @@ class UserControllerTest extends TestCase
             "code" => 200,
             "message" => "User data found"
         ]);
-
     }
 
     public function test_get_all_users_json_missing()
@@ -167,7 +167,7 @@ class UserControllerTest extends TestCase
         //Action
         $response = $this->get('api/users/1');
         
-        //Assertion    
+        //Assertion
         $response->assertStatus(200);
     }
 
@@ -179,7 +179,7 @@ class UserControllerTest extends TestCase
         //Action
         $response = $this->get('api/users?type=admin');
         
-        //Assertion 
+        //Assertion
         $response
         ->assertJsonCount(4)
         ->assertJsonFragment([
@@ -195,7 +195,7 @@ class UserControllerTest extends TestCase
         //Action
         $response = $this->get('api/users?type=dealer');
         
-        //Assertion 
+        //Assertion
         $response
         ->assertJsonCount(4)
         ->assertJsonFragment([
@@ -211,7 +211,7 @@ class UserControllerTest extends TestCase
         //Action
         $response = $this->get('api/users?type=customer');
         
-        //Assertion 
+        //Assertion
         $response
         ->assertJsonCount(4)
         ->assertJsonFragment([
@@ -224,7 +224,7 @@ class UserControllerTest extends TestCase
         //Preparation
             //Empty Database
 
-        //Action    
+        //Action
         $response = $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
@@ -236,7 +236,7 @@ class UserControllerTest extends TestCase
             'interest' => 1
         ]);
         
-        //Assertion 
+        //Assertion
         $response->assertStatus(201);
     }
 

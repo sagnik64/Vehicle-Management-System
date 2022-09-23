@@ -111,9 +111,9 @@ class InventoryController extends Controller
 
             if ($status_code == 0) {
                 $vehicle_status = 'Unlisted';
-            } else if ($status_code == 1) {
+            } elseif ($status_code == 1) {
                 $vehicle_status = "Active";
-            } else if ($status_code == 2) {
+            } elseif ($status_code == 2) {
                 $vehicle_status = "Inactive";
             } else {
                 $vehicle_status = "Unknown";

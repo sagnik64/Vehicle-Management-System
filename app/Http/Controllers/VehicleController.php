@@ -16,13 +16,13 @@ class VehicleController extends Controller
         }
         if (!$vehicle) {
             $status = 'unknown';
-        } else if ($vehicleStatus == 0) {
+        } elseif ($vehicleStatus == 0) {
             $status = 'unlisted';
-        } else if ($vehicleStatus == 1) {
+        } elseif ($vehicleStatus == 1) {
             $status = 'send for approval';
-        } else if ($vehicleStatus == 2) {
+        } elseif ($vehicleStatus == 2) {
             $status = 'approved';
-        } else if ($vehicleStatus == 3) {
+        } elseif ($vehicleStatus == 3) {
             $status = 'declined/send back to dealer for changes';
         } else {
             $status = 'unknown';

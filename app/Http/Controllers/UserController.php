@@ -25,7 +25,7 @@ class UserController extends Controller
             $userType = $request->type;
             if ($userType === 'admin') {
                 $userType = 3;
-            } else if ($userType === 'dealer') {
+            } elseif ($userType === 'dealer') {
                 $userType = 2;
             } else {
                 $userType = 1;
@@ -176,9 +176,9 @@ class UserController extends Controller
         //Authorization
         if ($user_type === 0) {
             return redirect('visitor');
-        } else if ($user_type === 1) {
+        } elseif ($user_type === 1) {
             return redirect('profile/customer');
-        } else if ($user_type === 2) {
+        } elseif ($user_type === 2) {
             return redirect('profile/dealer');
         } elseif ($user_type === 3) {
             return redirect('profile/admin');

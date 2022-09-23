@@ -11,7 +11,8 @@ class CartControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    private function setUpMockDatabase() {
+    private function setUpMockDatabase()
+    {
         $this->post('api/cart', [
             'user_id' => 1,
             'vehicle_type_id' => 1,

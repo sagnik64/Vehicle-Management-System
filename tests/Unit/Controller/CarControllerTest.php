@@ -74,7 +74,7 @@ class CarControllerTest extends TestCase
     public function test_car_duplication()
     {
         //Preparation
-            //Empty Database
+        //Empty Database
 
         //Action
         $car1 = Car::make([
@@ -144,7 +144,7 @@ class CarControllerTest extends TestCase
 
         //Action
         $response = $this->get('api/cars');
-        
+
         //Assertion
         $response->assertStatus(200);
     }
@@ -153,10 +153,10 @@ class CarControllerTest extends TestCase
     {
         //Preparation
         $this->setUpMockDatabase();
-        
+
         //Action
         $response = $this->get('api/cars');
-        
+
         //Assertion
         $response->assertJsonCount(4);
     }
@@ -165,10 +165,10 @@ class CarControllerTest extends TestCase
     {
         //Preparation
         $this->setUpMockDatabase();
-        
+
         //Action
         $response = $this->get('api/cars');
-        
+
         //Assertion
         $response->assertJsonStructure([
             'success',
@@ -182,17 +182,16 @@ class CarControllerTest extends TestCase
     {
         //Preparation
         $this->setUpMockDatabase();
-        
+
         //Action
         $response = $this->get('api/cars');
-        
+
         //Assertion
         $response->assertJsonFragment([
             "success" => "true",
             "code" => 200,
             "message" => "Car data found"
         ]);
-        
     }
 
     public function test_delete_car()
@@ -213,7 +212,7 @@ class CarControllerTest extends TestCase
     public function test_stores_new_car()
     {
         //Preparation
-            //Empty Database
+        //Empty Database
 
         //Action
         $response = $this->post('/api/cars', [
@@ -252,7 +251,7 @@ class CarControllerTest extends TestCase
     public function test_database()
     {
         //Preparation
-            //Empty Database
+        //Empty Database
 
         //Action
         $this->post('/api/cars', [

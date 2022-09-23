@@ -16,7 +16,8 @@ class OrderControllerTest extends TestCase
         Order::factory()->times(10)->create();
     }
 
-    private function setUpMockDatabaseOfTwoOrders() {
+    private function setUpMockDatabaseOfTwoOrders()
+    {
         $this->post('api/order', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
@@ -47,7 +48,7 @@ class OrderControllerTest extends TestCase
         //Preparation
             //Empty Database
 
-        //Action       
+        //Action
         $response = $this->get('api/order');
         
         //Assertion
@@ -63,7 +64,7 @@ class OrderControllerTest extends TestCase
         $response = $this->get('api/order');
 
         //Assertion
-        $this->assertEquals(10,count($response->json()['data']));
+        $this->assertEquals(10, count($response->json()['data']));
     }
 
     public function test_get_all_orders_json_structure()
@@ -74,7 +75,7 @@ class OrderControllerTest extends TestCase
         //Action
         $response = $this->get('api/order');
             
-        //Assertion    
+        //Assertion
         $response->assertJsonStructure([
             'success',
             'code',
@@ -235,7 +236,7 @@ class OrderControllerTest extends TestCase
             //Empty Database
         
         //Action
-        $response = $this->post('api/order',[
+        $response = $this->post('api/order', [
             'vehicle_type_id' => 1,
             'vehicle_type' => 'car',
             'customer_user_id' => 1,
