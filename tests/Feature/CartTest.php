@@ -147,63 +147,77 @@ class CartTest extends TestCase
         ])->assertCreated();
     }
 
-    public function test_add_to_cart_button_is_visible_in_view()
+    public function test_add_to_cart_is_visible_in_view()
     {
+        //Preparation
         $this->setUpDatabase();
         $this->user_login_as_customer_user();
+        
+        //Action
         $cars = Car::all();
         $data = compact('cars');
         $view = $this->view('profile/customer', $data);
+
+        //Assertion
         $view->assertSee('Add to Cart')->assertDontSee('Remove from Cart');
     }
 
-    public function test_remove_from_cart_button_is_visible_in_view()
+    public function test_remove_from_cart_is_visible_in_view()
     {
+        //Preparation
         $this->setUpDatabase();
-
         $this->addToCartMock();
-
         $this->user_login_as_customer_user();
 
-        
+        //Action
         $cars = Car::all();
         $data = compact('cars');
         $view = $this->view('profile/customer', $data);
+
+        //Assertion
         $view->assertSee('Remove from Cart')->assertDontSee('Add to Cart');
     }
     
-    public function test_count_of_all_add_to_cart_buttons_are_according_to_database()
+    public function test_count_of_all_add_to_cart_are_according_to_database()
     {
+        //Preparation
         $this->setUpDatabase();
-
         $this->user_login_as_customer_user();
 
+        //Action
         $addedToCartCount = Cart::where('status', '=', 1)->get()->count();
+        
+        //Assertion
         $this->assertEquals(0, $addedToCartCount);
     }
 
-    public function test_count_of_all_remove_from_cart_buttons_are_according_to_database()
+    public function test_count_of_all_remove_from_cart_are_according_to_database()
     {
+        //Preparation
         $this->setUpDatabase();
-
-        //Add two items in cart
+        //add two items in cart
         $this->addToCartMock();
-
         $this->user_login_as_customer_user();
 
+        //Action
         $addedToCartCount = Cart::where('status', '=', 1)->get()->count();
+
+        //Assertion
         $this->assertEquals(2, $addedToCartCount);
     }
 
     public function test_my_cart_link_shows_list_of_all_cart_items_of_user()
     {
+        //Preparation
         $this->setUpDatabase();
-
-        //Add two items in cart
+        //add two items in cart
         $this->addToCartMock();
-
         $this->user_login_as_customer_user();
 
-        $this->get('api/cart/1')->assertOk();
+        //Action
+        $response = $this->get('api/cart/1');
+        
+        //Assertion
+        $response->assertOk();
     }
 }
