@@ -78,7 +78,8 @@
                             
                             <?php
                             $matched = false;
-                            if (count(session('userCartVID'))) {
+                            if(session('userCartVID') != NULL) {
+                                if (count(session('userCartVID'))) {
                                 for ($i=0; $i<count(session('userCartVID')); $i++) {
                                     $vehicleID = session('userCartVID')[$i];
                                     if ($vehicleID == $car->id) {
@@ -86,6 +87,7 @@
                                         break;
                                     }
                                 }
+                            }
                             }
                             if ($matched == true) {
                                 echo '<input type="hidden" name="status" value="1">';
@@ -107,7 +109,7 @@
                             @csrf
                             <input type="hidden" name="vehicle_type_id" value="{{ $VID = $car->id }}">
                             <input type="hidden" name="vehicle_type" value="{{ $VType = "car" }}">
-                            <button class="btn  btn-success">Buy Now</button>
+                            <button type="submit" class="btn  btn-success">Buy Now</button>
                     </form>
                     </td>
                 </tr>

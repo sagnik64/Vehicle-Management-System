@@ -7,7 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" 
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" 
+    crossorigin="anonymous">
 
     <style>
         .required label::after{
@@ -44,7 +47,7 @@
         <div class="row">
             <div class="form-group col-md-6 required">
                 <label for="">Customer User ID</label>
-                <input type="text" name='customer_user_id'id="" class="form-control" value="{{session('uid')}}" readonly/>
+                <input type="text" name='customer_user_id'id="" class="form-control" value="{{session('uid') ?? 1}}" readonly/>
     
             </div>
             <div class="form-group col-md-6 required">
@@ -67,7 +70,9 @@
         <div class="row">
             <div class="form-group col-md-6 required">
                 <label for="">Transaction Reference Number</label>
-                <input type="text" name="transaction_reference" class="form-control" value="{{rand(11000000,99999998)}}" readonly/>
+                <input type="text" name="transaction_reference" 
+                class="form-control" 
+                value="{{rand(11000000,99999998)}}" readonly/>
             </div>
             <div class="form-group col-md-6 required">
                 <label for="">Added On</label>

@@ -14,7 +14,7 @@
         <input size="50" type="email" name='email' placeholder="example@abc.com"> <br><br>
         <label for="password">Password:</label>
         <input  size="50" type="password" name='password' placeholder="password"> <br><br><br>
-        <button type="submit"> Login </button>
+        <button type="submit">Login</button>
     </form>
 </div>
 <div style="display:flex;justify-content:center;">

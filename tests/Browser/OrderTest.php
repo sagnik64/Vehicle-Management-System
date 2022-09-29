@@ -1,17 +1,20 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Browser;
 
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Laravel\Dusk\Browser;
+use Tests\DuskTestCase;
 use App\Models\Car;
 use Tests\TestCase;
-use App\Models\Cart;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class CartTest extends TestCase
+class OrderTest extends DuskTestCase
 {
     use RefreshDatabase, WithFaker;
+
     private function setUpCarDatabase()
     {
         $this->post('/api/cars', [
@@ -41,7 +44,7 @@ class CartTest extends TestCase
             "vin" => "1ABCD23EFGH456789",
             "engine_number" => "12ABC34567",
             "user_id" => 2
-        ])->assertCreated();
+        ]);
 
         $this->post('/api/cars', [
             "car_name" => "Venue",
@@ -70,7 +73,7 @@ class CartTest extends TestCase
             "vin" => "1ABCD23EFGH456789",
             "engine_number" => "12ABC34567",
             "user_id" => 2
-        ])->assertCreated();
+        ]);
     }
 
     private function user_login_as_customer_user()
@@ -104,7 +107,6 @@ class CartTest extends TestCase
             'user_type' => 2,
             'interest' => 1
         ])->assertCreated();
-        ;
         
         $user3 = $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
@@ -128,27 +130,7 @@ class CartTest extends TestCase
         ])->assertRedirect('profile/customer');
     }
 
-    private function addToCartMock()
-    {
-        $this->call('POST', route('cart.store'), [
-            'user_id' => 1,
-            'vehicle_type_id' => 1,
-            'vehicle_type' => 'car',
-            'status' => 0,
-            '_token' => csrf_token()
-        ])->assertCreated();
-
-        $this->call('POST', route('cart.store'), [
-            'user_id' => 1,
-            'vehicle_type_id' => 2,
-            'vehicle_type' => 'car',
-            'status' => 0,
-            '_token' => csrf_token()
-        ])->assertCreated();
-    }
-
-    public function test_add_to_cart_is_visible_in_view()
-    {
+    public function test_buy_now_links_to_order_page () {
         //Preparation
         $this->setUpCarDatabase();
         $this->user_login_as_customer_user();
@@ -159,65 +141,51 @@ class CartTest extends TestCase
         $view = $this->view('profile/customer', $data);
 
         //Assertion
-        $view->assertSee('Add to Cart')->assertDontSee('Remove from Cart');
+        $view->assertSee('Buy Now');
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/profile/customer')
+                    ->press('Buy Now')
+                    ->assertPathIs('/order');
+        });
+
     }
 
-    public function test_remove_from_cart_is_visible_in_view()
-    {
-        //Preparation
-        $this->setUpCarDatabase();
-        $this->addToCartMock();
-        $this->user_login_as_customer_user();
-
-        //Action
-        $cars = Car::all();
-        $data = compact('cars');
-        $view = $this->view('profile/customer', $data);
-
-        //Assertion
-        $view->assertSee('Remove from Cart')->assertDontSee('Add to Cart');
-    }
-    
-    public function test_count_of_all_add_to_cart_are_according_to_database()
-    {
-        //Preparation
-        $this->setUpCarDatabase();
-        $this->user_login_as_customer_user();
-
-        //Action
-        $addedToCartCount = Cart::where('status', '=', 1)->get()->count();
+    public function test_place_order_stores_new_order () {
         
-        //Assertion
-        $this->assertEquals(0, $addedToCartCount);
-    }
-
-    public function test_count_of_all_remove_from_cart_are_according_to_database()
-    {
         //Preparation
         $this->setUpCarDatabase();
-        //add two items in cart
-        $this->addToCartMock();
-        $this->user_login_as_customer_user();
-
-        //Action
-        $addedToCartCount = Cart::where('status', '=', 1)->get()->count();
-
-        //Assertion
-        $this->assertEquals(2, $addedToCartCount);
-    }
-
-    public function test_my_cart_link_shows_list_of_all_cart_items_of_user()
-    {
-        //Preparation
-        $this->setUpCarDatabase();
-        //add two items in cart
-        $this->addToCartMock();
-        $this->user_login_as_customer_user();
-
-        //Action
-        $response = $this->get('api/cart/1');
         
-        //Assertion
-        $response->assertOk();
+        $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123450' ,
+            'address' => $this->faker()->address(),
+            'email' => "john123@example.com",
+            'password' => "123abc^",
+            'user_type' => 1,
+            'interest' => 1
+        ])->assertCreated();
+
+        //Action and Assertion    
+        $this->browse(function (Browser $browser) {
+            $browser->visit('login')
+                    ->type('email','john123@example.com')
+                    ->type('password','123abc^')
+                    ->press('Login')
+                    ->assertPathIs('/user_login');
+            $browser->visit('login')
+                    ->assertPathIs('/profile/customer')
+                    ->press('Buy Now')
+                    ->assertPathIs('/order')
+                    ->type('dealer_user_id',1)
+                    ->press('Place Order')
+                    ->assertSee('Order data saved successfully');
+        });
+
     }
+
+    public function test_my_orders_links_to_list_of_all_orders_of_the_user () {
+        $this->assertEquals("example","example");
+    }
+
 }
