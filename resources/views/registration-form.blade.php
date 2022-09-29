@@ -20,6 +20,8 @@
   <body>
     <form action="{{url('/')}}/register" method="POST">
     @csrf
+    <input type="hidden" name="interest" value=1>
+    
     <div class="container">
         <h2 class="text-center text-primary">User Registration</h2>
         <div class="row">

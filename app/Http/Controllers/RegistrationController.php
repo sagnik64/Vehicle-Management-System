@@ -18,7 +18,7 @@ class RegistrationController extends Controller
             'first_name'=>'required|string',
             'last_name'=>'required|string',
             'phone'=>'required|numeric|digits:10',
-            'email'=>'required|email',
+            'email'=>'required|email|unique:users',
             'address'=>'required',
             'password'=>'required',
             'confirm_password'=>'required|same:password'
@@ -33,12 +33,13 @@ class RegistrationController extends Controller
         $user->address = $req->address;
         $user->password = $req->password;
         $user->user_type = 1;
+        $user->interest = 1;
         $result = $user->save();
     
         if ($result) {
-            return ["Result"=>"User Added Successfully."];
+            return ["result"=>"user added successfully"];
         } else {
-            return ["Result"=>"User Not Added."];
+            return ["result"=>"user not added"];
         }
     }
 }

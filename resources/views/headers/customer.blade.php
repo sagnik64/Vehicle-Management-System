@@ -31,7 +31,7 @@
                         <a class="nav-link" href="" style="color: white">My Inventory</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/api/order/{{session('uid')}}" style="color: white">My Orders</a>
+                        <a id="my_orders_link" class="nav-link" href="/api/order/{{session('uid') ?? ''}}" style="color: white">My Orders</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{url('/logout')}}" style="color: white">Logout</a>

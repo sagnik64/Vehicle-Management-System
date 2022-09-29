@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderTest extends DuskTestCase
 {
-    use RefreshDatabase, WithFaker;
+    use WithFaker;
 
     private function setUpCarDatabase()
     {
@@ -76,76 +76,37 @@ class OrderTest extends DuskTestCase
         ]);
     }
 
-    private function user_login_as_customer_user()
-    {
-
-        $email1 = $this->faker()->safeEmail();
-        $email2 = $this->faker()->safeEmail();
-        $email3 = $this->faker()->safeEmail();
-        $password1 = $this->faker()->randomNumber(5);
-        $password2 = $this->faker()->randomNumber(5);
-        $password3 = $this->faker()->randomNumber(5);
-
-        $user1 = $this->post('/api/users', [
+    public function test_buy_now_links_to_order_page () {
+        //Preparation
+        $this->setUpCarDatabase();
+        
+        $this->post('/api/users', [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
             'phone' => '9988123450' ,
             'address' => $this->faker()->address(),
-            'email' => $email1,
-            'password' => $password1,
+            'email' => "john123@example.com",
+            'password' => "123abc^",
             'user_type' => 1,
             'interest' => 1
         ])->assertCreated();
         
-        $user2 = $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $email2,
-            'password' => $password2,
-            'user_type' => 2,
-            'interest' => 1
-        ])->assertCreated();
-        
-        $user3 = $this->post('/api/users', [
-            'first_name' => $this->faker->firstName(),
-            'last_name' => $this->faker->lastName(),
-            'phone' => '9988123450' ,
-            'address' => $this->faker()->address(),
-            'email' => $email3,
-            'password' => $password3,
-            'user_type' => 3,
-            'interest' => 1
-        ])->assertCreated();
-   
-        
-        $this->get('/login')->assertViewIs('login');
-        
-        Session::start();
-        $this->call('POST', 'user_login', [
-            'email' => $email1,
-            'password' => $password1,
-            '_token' => csrf_token()
-        ])->assertRedirect('profile/customer');
-    }
 
-    public function test_buy_now_links_to_order_page () {
-        //Preparation
-        $this->setUpCarDatabase();
-        $this->user_login_as_customer_user();
-        
-        //Action
-        $cars = Car::all();
-        $data = compact('cars');
-        $view = $this->view('profile/customer', $data);
-
-        //Assertion
-        $view->assertSee('Buy Now');
+        //Action and Assertion    
         $this->browse(function (Browser $browser) {
-            $browser->visit('/profile/customer')
+            $browser->visit('login')
+                    ->type('email','john123@example.com')
+                    ->type('password','123abc^')
+                    ->press('Login')
+                    ->assertPathIs('/user_login');
+            $browser->visit('login')
+                    ->assertPathIs('/profile/customer')
                     ->press('Buy Now')
-                    ->assertPathIs('/order');
+                    ->assertPathIs('/order')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->visit('logout')
+                    ->assertPathIs('/login');
         });
 
     }
@@ -179,13 +140,47 @@ class OrderTest extends DuskTestCase
                     ->assertPathIs('/order')
                     ->type('dealer_user_id',1)
                     ->press('Place Order')
-                    ->assertSee('Order data saved successfully');
+                    ->assertSee('Order data saved successfully')
+                    ->back()
+                    ->assertPathIs('/order')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->visit('logout')
+                    ->assertPathIs('/login');
         });
 
     }
 
     public function test_my_orders_links_to_list_of_all_orders_of_the_user () {
-        $this->assertEquals("example","example");
-    }
+        //Preparation
+        $this->setUpCarDatabase();
+        
+        $this->post('/api/users', [
+            'first_name' => $this->faker->firstName(),
+            'last_name' => $this->faker->lastName(),
+            'phone' => '9988123450' ,
+            'address' => $this->faker()->address(),
+            'email' => "john123@example.com",
+            'password' => "123abc^",
+            'user_type' => 1,
+            'interest' => 1
+        ])->assertCreated();
 
+        //Action and Assertion    
+        $this->browse(function (Browser $browser) {
+            $browser->visit('login')
+                    ->type('email','john123@example.com')
+                    ->type('password','123abc^')
+                    ->press('Login')
+                    ->assertPathIs('/user_login');
+            $browser->visit('login')
+                    ->assertPathIs('/profile/customer')
+                    ->clickLink('My Orders')
+                    ->assertPathIs('/api/order/')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->visit('logout')
+                    ->assertPathIs('/login');
+        });
+    }
 }
