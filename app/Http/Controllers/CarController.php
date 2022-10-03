@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -274,6 +275,20 @@ class CarController extends Controller
     
     public function carsCustomer(Request $request)
     {
+
+        $userCartData = Cart::where('user_id', '=', session('uid'))->get();
+
+        $userCartVID = [];
+        for ($i=0; $i<count($userCartData); $i++) {
+            if ($userCartData[$i]->status == 1) {
+                $userCartVID[]= $userCartData[$i]->vehicle_type_id;
+            }
+        }
+        $userCartVID = array_unique($userCartVID);
+        $request->session()->put('userCartData', $userCartData);
+        $request->session()->put('userCartDataCount', count($userCartVID));
+        $request->session()->put('userCartVID', $userCartVID);
+
         $name = $request->name;
         $brand = $request->brand;
         $model = $request->model;

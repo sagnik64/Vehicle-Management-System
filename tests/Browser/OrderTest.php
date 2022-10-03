@@ -13,7 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class OrderTest extends DuskTestCase
 {
-    use WithFaker;
+    use RefreshDatabase,WithFaker;
 
     private function setUpCarDatabase()
     {
@@ -178,7 +178,7 @@ class OrderTest extends DuskTestCase
                     ->clickLink('My Orders')
                     ->assertPathIs('/api/order/')
                     ->back()
-                    ->assertPathIs('/profile/customer')
+                    ->refresh()
                     ->visit('logout')
                     ->assertPathIs('/login');
         });

@@ -160,4 +160,246 @@ class CustomerUserTest extends DuskTestCase
                     ->assertPathIs('/login');
             });
     }
+
+    public function test_user_logs_in_and_then_adds_an_item_to_cart_and_then_logs_out () {
+        $this->browse(function (Browser $browser) {
+
+            $browser->visit('/logout');
+
+            $email = 'Destini.Wisozk18@example.net';
+            $password = '4336e';
+            
+            $browser->visit('login')
+                    ->assertPathIs('/login')
+                    ->type('email', $email)
+                    ->type('password',$password)
+                    ->press('Login')
+                    ->assertPathIs('/profile/customer')
+                    ->assertSee('Vehicle Management System')
+                    ->press('Add to Cart')
+                    ->assertPathIs('/api/cart')
+                    ->assertSee('Item added successfully to the cart')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->refresh()
+                    ->assertPathIs('/profile/customer');
+
+                $browser->assertSee('Remove from Cart')
+                    ->press('Remove from Cart')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->refresh()
+                    ->visit('/logout');
+        });
+    }
+
+    public function test_user_logs_in_and_then_adds_an_item_to_cart_and_removes_the_same_item_from_cart_and_then_logs_out () {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/logout');
+
+            $email = 'Destini.Wisozk18@example.net';
+            $password = '4336e';
+            
+            $browser->visit('login')
+                    ->assertPathIs('/login')
+                    ->type('email', $email)
+                    ->type('password',$password)
+                    ->press('Login')
+                    ->assertPathIs('/profile/customer')
+                    ->assertSee('Vehicle Management System')
+                    ->press('Add to Cart')
+                    ->assertPathIs('/api/cart')
+                    ->assertSee('Item added successfully to the cart')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->refresh()
+                    ->assertPathIs('/profile/customer');
+                    
+            $browser->assertSee('Remove from Cart')
+                    ->press('Remove from Cart')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->refresh()
+                    ->visit('/logout');
+        });
+    }
+
+    public function test_user_logs_in_and_then_adds_multiple_items_to_cart_and_then_logs_out() {
+        $this->browse(function (Browser $browser) {
+        
+        $browser->visit('/logout');
+
+            $email = 'Destini.Wisozk18@example.net';
+            $password = '4336e';
+            
+            $browser->visit('login')
+                    ->assertPathIs('/login')
+                    ->type('email', $email)
+                    ->type('password',$password)
+                    ->press('Login')
+                    ->assertPathIs('/profile/customer')
+                    ->assertSee('Vehicle Management System')
+                    ->press('Add to Cart')
+                    ->assertPathIs('/api/cart')
+                    ->assertSee('Item added successfully to the cart')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->refresh()
+                    ->assertPathIs('/profile/customer')
+                    ->screenshot('Test_08 Remove from Cart 1')
+                    ->press('Add to Cart')
+                    ->assertPathIs('/api/cart')
+                    ->assertSee('Item added successfully to the cart')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->refresh()
+                    ->assertPathIs('/profile/customer')
+                    ->screenshot('Test_08 Remove from Cart 2');
+
+                    $browser
+                    ->press('Remove from Cart')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->refresh()
+                    ->press('Remove from Cart')
+                    ->back()
+                    ->assertPathIs('/profile/customer')
+                    ->refresh()
+                    ->visit('/logout');
+        });
+
+    }
+
+    public function test_user_logs_in_and_then_adds_multiple_items_to_cart_removes_some_items_from_cart_and_then_logs_out() {
+        $this->browse(function (Browser $browser) {
+        
+            $browser->visit('/logout');
+    
+                $email = 'Destini.Wisozk18@example.net';
+                $password = '4336e';
+                
+                $browser->visit('login')
+                        ->assertPathIs('/login')
+                        ->type('email', $email)
+                        ->type('password',$password)
+                        ->press('Login')
+                        ->assertPathIs('/profile/customer')
+                        ->assertSee('Vehicle Management System')
+                        ->press('Add to Cart')
+                        ->assertPathIs('/api/cart')
+                        ->assertSee('Item added successfully to the cart')
+                        ->back()
+                        ->assertPathIs('/profile/customer')
+                        ->refresh()
+                        ->assertPathIs('/profile/customer')
+                        ->press('Add to Cart')
+                        ->assertPathIs('/api/cart')
+                        ->assertSee('Item added successfully to the cart')
+                        ->back()
+                        ->assertPathIs('/profile/customer')
+                        ->refresh()
+                        ->assertPathIs('/profile/customer')
+                        ->screenshot('Test_09 Added two items to cart');
+    
+                        $browser
+                        ->press('Remove from Cart')
+                        ->back()
+                        ->assertPathIs('/profile/customer')
+                        ->refresh()
+                        ->visit('/logout')
+                        ->assertPathIs('/login')
+                        ->type('email', $email)
+                        ->type('password',$password)
+                        ->press('Login')
+                        ->assertPathIs('/profile/customer')
+                        ->screenshot('Test_09 Removed one of the items from cart')
+                        ->press('Remove from Cart')
+                        ->back()
+                        ->assertPathIs('/profile/customer')
+                        ->refresh()
+                        ->visit('/logout');
+            });
+    }
+
+    public function test_user_logs_in_and_then_places_an_order_of_an_item_after_adding_to_cart_and_logs_out() {
+        $this->browse(function (Browser $browser) {
+        
+            $browser->visit('/logout');
+    
+                $email = 'Destini.Wisozk18@example.net';
+                $password = '4336e';
+                
+                $browser->visit('login')
+                        ->assertPathIs('/login')
+                        ->type('email', $email)
+                        ->type('password',$password)
+                        ->press('Login')
+                        ->assertPathIs('/profile/customer')
+                        ->assertSee('Vehicle Management System')
+                        ->press('Add to Cart')
+                        ->assertPathIs('/api/cart')
+                        ->assertSee('Item added successfully to the cart')
+                        ->back()
+                        ->assertPathIs('/profile/customer')
+                        ->refresh()
+                        ->assertSee('Remove from Cart')
+                        ->screenshot('Test_10 See Remove from Cart')
+                        ->press('Buy Now')
+                        ->assertPathIs('/order')
+                        ->type('dealer_user_id',1)
+                        ->press('Place Order')
+                        ->assertSee('Order data saved successfully')
+                        ->screenshot('Test_010 order placed successfully')
+                        ->back()
+                        ->assertPathIs('/order')
+                        ->back()
+                        ->assertPathIs('/profile/customer')
+                        ->refresh()
+                        ->visit('/logout')
+                        ->assertPathIs('/login');
+                        
+                $browser->visit('/login')
+                        ->type('email', $email)
+                        ->type('password',$password)
+                        ->press('Login')
+                        ->assertPathIs('/profile/customer')
+                        ->press('Remove from Cart')
+                        ->back()
+                        ->assertPathIs('/profile/customer')
+                        ->refresh()
+                        ->visit('/logout');
+            });
+    }
+
+    public function test_user_logs_in_and_then_and_places_an_order_of_an_item_without_adding_to_cart_and_logs_out() {
+        $this->browse(function (Browser $browser) {
+        
+            $browser->visit('/logout');
+    
+                $email = 'Destini.Wisozk18@example.net';
+                $password = '4336e';
+                
+                $browser->visit('login')
+                        ->assertPathIs('/login')
+                        ->type('email', $email)
+                        ->type('password',$password)
+                        ->press('Login')
+                        ->assertPathIs('/profile/customer')
+                        ->assertSee('Vehicle Management System')
+                        ->press('Buy Now')
+                        ->assertPathIs('/order')
+                        ->type('dealer_user_id',1)
+                        ->press('Place Order')
+                        ->assertSee('Order data saved successfully')
+                        ->screenshot('Test_010 order placed successfully')
+                        ->back()
+                        ->assertPathIs('/order')
+                        ->back()
+                        ->assertPathIs('/profile/customer')
+                        ->refresh()
+                        ->visit('/logout')
+                        ->assertPathIs('/login');  
+            });
+    }
+
 }
