@@ -213,10 +213,11 @@ class CustomerUserTest extends DuskTestCase
                     ->back()
                     ->assertPathIs('/profile/customer')
                     ->refresh()
-                    ->assertPathIs('/profile/customer');
-                    
-            $browser->assertSee('Remove from Cart')
+                    ->assertPathIs('/profile/customer')
+                    ->assertSee('Remove from Cart')
                     ->press('Remove from Cart')
+                    ->assertPathIs('/api/cart')
+                    ->assertSee('removed from cart successfully')
                     ->back()
                     ->assertPathIs('/profile/customer')
                     ->refresh()
