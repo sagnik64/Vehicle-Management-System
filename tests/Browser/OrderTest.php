@@ -76,7 +76,8 @@ class OrderTest extends DuskTestCase
         ]);
     }
 
-    public function test_buy_now_links_to_order_page () {
+    public function test_buy_now_links_to_order_page()
+    {
         //Preparation
         $this->setUpCarDatabase();
         
@@ -92,11 +93,11 @@ class OrderTest extends DuskTestCase
         ])->assertCreated();
         
 
-        //Action and Assertion    
+        //Action and Assertion
         $this->browse(function (Browser $browser) {
             $browser->visit('login')
-                    ->type('email','john123@example.com')
-                    ->type('password','123abc^')
+                    ->type('email', 'john123@example.com')
+                    ->type('password', '123abc^')
                     ->press('Login')
                     ->assertPathIs('/user_login');
             $browser->visit('login')
@@ -108,10 +109,10 @@ class OrderTest extends DuskTestCase
                     ->visit('logout')
                     ->assertPathIs('/login');
         });
-
     }
 
-    public function test_place_order_stores_new_order () {
+    public function test_place_order_stores_new_order()
+    {
         
         //Preparation
         $this->setUpCarDatabase();
@@ -127,18 +128,18 @@ class OrderTest extends DuskTestCase
             'interest' => 1
         ])->assertCreated();
 
-        //Action and Assertion    
+        //Action and Assertion
         $this->browse(function (Browser $browser) {
             $browser->visit('login')
-                    ->type('email','john123@example.com')
-                    ->type('password','123abc^')
+                    ->type('email', 'john123@example.com')
+                    ->type('password', '123abc^')
                     ->press('Login')
                     ->assertPathIs('/user_login');
             $browser->visit('login')
                     ->assertPathIs('/profile/customer')
                     ->press('Buy Now')
                     ->assertPathIs('/order')
-                    ->type('dealer_user_id',1)
+                    ->type('dealer_user_id', 1)
                     ->press('Place Order')
                     ->assertSee('Order data saved successfully')
                     ->back()
@@ -148,10 +149,10 @@ class OrderTest extends DuskTestCase
                     ->visit('logout')
                     ->assertPathIs('/login');
         });
-
     }
 
-    public function test_my_orders_links_to_list_of_all_orders_of_the_user () {
+    public function test_my_orders_links_to_list_of_all_orders_of_the_user()
+    {
         //Preparation
         $this->setUpCarDatabase();
         
@@ -166,11 +167,11 @@ class OrderTest extends DuskTestCase
             'interest' => 1
         ])->assertCreated();
 
-        //Action and Assertion    
+        //Action and Assertion
         $this->browse(function (Browser $browser) {
             $browser->visit('login')
-                    ->type('email','john123@example.com')
-                    ->type('password','123abc^')
+                    ->type('email', 'john123@example.com')
+                    ->type('password', '123abc^')
                     ->press('Login')
                     ->assertPathIs('/user_login');
             $browser->visit('login')

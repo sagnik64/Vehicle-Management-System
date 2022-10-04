@@ -19,17 +19,17 @@ class CustomerUserTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
 
             $firstName = $this->faker->firstName();
-            $email = $firstName . $this->faker->randomNumber(5) . '@' . $this->faker->safeEmailDomain(); 
-            $password = $this->faker()->password(5,8);
+            $email = $firstName . $this->faker->randomNumber(5) . '@' . $this->faker->safeEmailDomain();
+            $password = $this->faker()->password(5, 8);
             $browser->visit('/register')
                     ->assertSee('User Registration')
                     ->type('first_name', $firstName)
-                    ->type('last_name',$this->faker->lastName())
-                    ->type('phone','98' . $this->faker->randomNumber(8,true))
-                    ->type('email',$email)
-                    ->type('address',$this->faker()->address())
-                    ->type('password',$password)
-                    ->type('confirm_password',$password)
+                    ->type('last_name', $this->faker->lastName())
+                    ->type('phone', '98' . $this->faker->randomNumber(8, true))
+                    ->type('email', $email)
+                    ->type('address', $this->faker()->address())
+                    ->type('password', $password)
+                    ->type('confirm_password', $password)
                     ->press('Register')
                     ->assertPathIs('/register')
                     ->assertSee('user added successfully');
@@ -37,28 +37,28 @@ class CustomerUserTest extends DuskTestCase
     }
 
     public function test_failure_of_new_user_registers_with_existing_email()
-    {   
+    {
         
         $this->browse(function (Browser $browser) {
 
-        $firstName = $this->faker->firstName();
+            $firstName = $this->faker->firstName();
 
         // TODO: Fetch existing email from main MySQL database
-        $email = 'Destini.Wisozk18@example.net';
-        $password = $this->faker()->password(5,8);
+            $email = 'Destini.Wisozk18@example.net';
+            $password = $this->faker()->password(5, 8);
 
             $firstName = $this->faker->firstName();
             
-            $password = $this->faker()->password(5,8);
+            $password = $this->faker()->password(5, 8);
             $browser->visit('/register')
                     ->assertSee('User Registration')
                     ->type('first_name', $firstName)
-                    ->type('last_name',$this->faker->lastName())
-                    ->type('phone','98' . $this->faker->randomNumber(8,true))
-                    ->type('email',$email)
-                    ->type('address',$this->faker()->address())
-                    ->type('password',$password)
-                    ->type('confirm_password',$password)
+                    ->type('last_name', $this->faker->lastName())
+                    ->type('phone', '98' . $this->faker->randomNumber(8, true))
+                    ->type('email', $email)
+                    ->type('address', $this->faker()->address())
+                    ->type('password', $password)
+                    ->type('confirm_password', $password)
                     ->press('Register')
                     ->assertPathIs('/register')
                     ->assertSee('The email has already been taken.');
@@ -66,102 +66,102 @@ class CustomerUserTest extends DuskTestCase
     }
 
     public function test_failure_of_new_user_registers_and_then_goes_to_login_page_and_types_wrong_email()
-    {    
+    {
         $this->browse(function (Browser $browser) {
 
             $browser->visit('/logout');
 
             $firstName = $this->faker->firstName();
-            $email = $firstName . $this->faker->randomNumber(5) . '@' . $this->faker->safeEmailDomain(); 
-            $password = $this->faker()->password(5,8);
+            $email = $firstName . $this->faker->randomNumber(5) . '@' . $this->faker->safeEmailDomain();
+            $password = $this->faker()->password(5, 8);
             $browser->visit('/register')
                     ->assertSee('User Registration')
                     ->type('first_name', $firstName)
-                    ->type('last_name',$this->faker->lastName())
-                    ->type('phone','98' . $this->faker->randomNumber(8,true))
-                    ->type('email',$email)
-                    ->type('address',$this->faker()->address())
-                    ->type('password',$password)
-                    ->type('confirm_password',$password)
+                    ->type('last_name', $this->faker->lastName())
+                    ->type('phone', '98' . $this->faker->randomNumber(8, true))
+                    ->type('email', $email)
+                    ->type('address', $this->faker()->address())
+                    ->type('password', $password)
+                    ->type('confirm_password', $password)
                     ->press('Register')
                     ->assertPathIs('/register')
                     ->assertSee('user added successfully')
                     ->visit('login')
                     ->assertPathIs('/login')
-                    ->type('email','abc' . $email)
-                    ->type('password',$password)
+                    ->type('email', 'abc' . $email)
+                    ->type('password', $password)
                     ->press('Login')
                     ->assertPathIs('/user_login')
                     ->assertSee('Wrong email or password');
-            });
-
-            
+        });
     }
 
     public function test_failure_of_new_user_registers_and_then_goes_to_login_page_and_types_wrong_password()
-    {    
+    {
         $this->browse(function (Browser $browser) {
 
             $browser->visit('/logout');
 
             $firstName = $this->faker->firstName();
-            $email = $firstName . $this->faker->randomNumber(5) . '@' . $this->faker->safeEmailDomain(); 
-            $password = $this->faker()->password(5,8);
+            $email = $firstName . $this->faker->randomNumber(5) . '@' . $this->faker->safeEmailDomain();
+            $password = $this->faker()->password(5, 8);
             $browser->visit('/register')
                     ->assertSee('User Registration')
                     ->type('first_name', $firstName)
-                    ->type('last_name',$this->faker->lastName())
-                    ->type('phone','98' . $this->faker->randomNumber(8,true))
-                    ->type('email',$email)
-                    ->type('address',$this->faker()->address())
-                    ->type('password',$password)
-                    ->type('confirm_password',$password)
+                    ->type('last_name', $this->faker->lastName())
+                    ->type('phone', '98' . $this->faker->randomNumber(8, true))
+                    ->type('email', $email)
+                    ->type('address', $this->faker()->address())
+                    ->type('password', $password)
+                    ->type('confirm_password', $password)
                     ->press('Register')
                     ->assertPathIs('/register')
                     ->assertSee('user added successfully')
                     ->visit('login')
                     ->assertPathIs('/login')
                     ->type('email', $email)
-                    ->type('password',$password . '123')
+                    ->type('password', $password . '123')
                     ->press('Login')
                     ->assertPathIs('/user_login')
                     ->assertSee('Wrong email or password');
-            });
+        });
     }
 
-    public function test_new_user_registers_and_then_goes_to_login_page_and_logs_in_with_correct_email_and_password_and_then_redirects_to_customer_dashboard_and_then_logs_out () {
+    public function test_new_user_registers_and_then_goes_to_login_page_and_logs_in_with_correct_email_and_password_and_then_redirects_to_customer_dashboard_and_then_logs_out()
+    {
         $this->browse(function (Browser $browser) {
 
             $browser->visit('/logout');
 
             $firstName = $this->faker->firstName();
-            $email = $firstName . $this->faker->randomNumber(5) . '@' . $this->faker->safeEmailDomain(); 
-            $password = $this->faker()->password(5,8);
+            $email = $firstName . $this->faker->randomNumber(5) . '@' . $this->faker->safeEmailDomain();
+            $password = $this->faker()->password(5, 8);
             $browser->visit('/register')
                     ->assertSee('User Registration')
                     ->type('first_name', $firstName)
-                    ->type('last_name',$this->faker->lastName())
-                    ->type('phone','98' . $this->faker->randomNumber(8,true))
-                    ->type('email',$email)
-                    ->type('address',$this->faker()->address())
-                    ->type('password',$password)
-                    ->type('confirm_password',$password)
+                    ->type('last_name', $this->faker->lastName())
+                    ->type('phone', '98' . $this->faker->randomNumber(8, true))
+                    ->type('email', $email)
+                    ->type('address', $this->faker()->address())
+                    ->type('password', $password)
+                    ->type('confirm_password', $password)
                     ->press('Register')
                     ->assertPathIs('/register')
                     ->assertSee('user added successfully')
                     ->visit('login')
                     ->assertPathIs('/login')
                     ->type('email', $email)
-                    ->type('password',$password)
+                    ->type('password', $password)
                     ->press('Login')
                     ->assertPathIs('/profile/customer')
                     ->assertSee('Vehicle Management System')
                     ->clickLink('Logout')
                     ->assertPathIs('/login');
-            });
+        });
     }
 
-    public function test_user_logs_in_and_then_adds_an_item_to_cart_and_then_logs_out () {
+    public function test_user_logs_in_and_then_adds_an_item_to_cart_and_then_logs_out()
+    {
         $this->browse(function (Browser $browser) {
 
             $browser->visit('/logout');
@@ -172,7 +172,7 @@ class CustomerUserTest extends DuskTestCase
             $browser->visit('login')
                     ->assertPathIs('/login')
                     ->type('email', $email)
-                    ->type('password',$password)
+                    ->type('password', $password)
                     ->press('Login')
                     ->assertPathIs('/profile/customer')
                     ->assertSee('Vehicle Management System')
@@ -193,7 +193,8 @@ class CustomerUserTest extends DuskTestCase
         });
     }
 
-    public function test_user_logs_in_and_then_adds_an_item_to_cart_and_removes_the_same_item_from_cart_and_then_logs_out () {
+    public function test_user_logs_in_and_then_adds_an_item_to_cart_and_removes_the_same_item_from_cart_and_then_logs_out()
+    {
         $this->browse(function (Browser $browser) {
             $browser->visit('/logout');
 
@@ -203,7 +204,7 @@ class CustomerUserTest extends DuskTestCase
             $browser->visit('login')
                     ->assertPathIs('/login')
                     ->type('email', $email)
-                    ->type('password',$password)
+                    ->type('password', $password)
                     ->press('Login')
                     ->assertPathIs('/profile/customer')
                     ->assertSee('Vehicle Management System')
@@ -225,10 +226,11 @@ class CustomerUserTest extends DuskTestCase
         });
     }
 
-    public function test_user_logs_in_and_then_adds_multiple_items_to_cart_and_then_logs_out() {
+    public function test_user_logs_in_and_then_adds_multiple_items_to_cart_and_then_logs_out()
+    {
         $this->browse(function (Browser $browser) {
         
-        $browser->visit('/logout');
+            $browser->visit('/logout');
 
             $email = 'Destini.Wisozk18@example.net';
             $password = '4336e';
@@ -236,7 +238,7 @@ class CustomerUserTest extends DuskTestCase
             $browser->visit('login')
                     ->assertPathIs('/login')
                     ->type('email', $email)
-                    ->type('password',$password)
+                    ->type('password', $password)
                     ->press('Login')
                     ->assertPathIs('/profile/customer')
                     ->assertSee('Vehicle Management System')
@@ -268,10 +270,10 @@ class CustomerUserTest extends DuskTestCase
                     ->refresh()
                     ->visit('/logout');
         });
-
     }
 
-    public function test_user_logs_in_and_then_adds_multiple_items_to_cart_removes_some_items_from_cart_and_then_logs_out() {
+    public function test_user_logs_in_and_then_adds_multiple_items_to_cart_removes_some_items_from_cart_and_then_logs_out()
+    {
         $this->browse(function (Browser $browser) {
         
             $browser->visit('/logout');
@@ -282,7 +284,7 @@ class CustomerUserTest extends DuskTestCase
                 $browser->visit('login')
                         ->assertPathIs('/login')
                         ->type('email', $email)
-                        ->type('password',$password)
+                        ->type('password', $password)
                         ->press('Login')
                         ->assertPathIs('/profile/customer')
                         ->assertSee('Vehicle Management System')
@@ -310,7 +312,7 @@ class CustomerUserTest extends DuskTestCase
                         ->visit('/logout')
                         ->assertPathIs('/login')
                         ->type('email', $email)
-                        ->type('password',$password)
+                        ->type('password', $password)
                         ->press('Login')
                         ->assertPathIs('/profile/customer')
                         ->screenshot('Test_09 Removed one of the items from cart')
@@ -319,10 +321,11 @@ class CustomerUserTest extends DuskTestCase
                         ->assertPathIs('/profile/customer')
                         ->refresh()
                         ->visit('/logout');
-            });
+        });
     }
 
-    public function test_user_logs_in_and_then_places_an_order_of_an_item_after_adding_to_cart_and_logs_out() {
+    public function test_user_logs_in_and_then_places_an_order_of_an_item_after_adding_to_cart_and_logs_out()
+    {
         $this->browse(function (Browser $browser) {
         
             $browser->visit('/logout');
@@ -333,7 +336,7 @@ class CustomerUserTest extends DuskTestCase
                 $browser->visit('login')
                         ->assertPathIs('/login')
                         ->type('email', $email)
-                        ->type('password',$password)
+                        ->type('password', $password)
                         ->press('Login')
                         ->assertPathIs('/profile/customer')
                         ->assertSee('Vehicle Management System')
@@ -347,7 +350,7 @@ class CustomerUserTest extends DuskTestCase
                         ->screenshot('Test_10 See Remove from Cart')
                         ->press('Buy Now')
                         ->assertPathIs('/order')
-                        ->type('dealer_user_id',1)
+                        ->type('dealer_user_id', 1)
                         ->press('Place Order')
                         ->assertSee('Order data saved successfully')
                         ->screenshot('Test_010 order placed successfully')
@@ -361,7 +364,7 @@ class CustomerUserTest extends DuskTestCase
                         
                 $browser->visit('/login')
                         ->type('email', $email)
-                        ->type('password',$password)
+                        ->type('password', $password)
                         ->press('Login')
                         ->assertPathIs('/profile/customer')
                         ->press('Remove from Cart')
@@ -369,10 +372,11 @@ class CustomerUserTest extends DuskTestCase
                         ->assertPathIs('/profile/customer')
                         ->refresh()
                         ->visit('/logout');
-            });
+        });
     }
 
-    public function test_user_logs_in_and_then_and_places_an_order_of_an_item_without_adding_to_cart_and_logs_out() {
+    public function test_user_logs_in_and_then_and_places_an_order_of_an_item_without_adding_to_cart_and_logs_out()
+    {
         $this->browse(function (Browser $browser) {
         
             $browser->visit('/logout');
@@ -383,13 +387,13 @@ class CustomerUserTest extends DuskTestCase
                 $browser->visit('login')
                         ->assertPathIs('/login')
                         ->type('email', $email)
-                        ->type('password',$password)
+                        ->type('password', $password)
                         ->press('Login')
                         ->assertPathIs('/profile/customer')
                         ->assertSee('Vehicle Management System')
                         ->press('Buy Now')
                         ->assertPathIs('/order')
-                        ->type('dealer_user_id',1)
+                        ->type('dealer_user_id', 1)
                         ->press('Place Order')
                         ->assertSee('Order data saved successfully')
                         ->screenshot('Test_010 order placed successfully')
@@ -399,8 +403,7 @@ class CustomerUserTest extends DuskTestCase
                         ->assertPathIs('/profile/customer')
                         ->refresh()
                         ->visit('/logout')
-                        ->assertPathIs('/login');  
-            });
+                        ->assertPathIs('/login');
+        });
     }
-
 }
