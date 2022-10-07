@@ -19,6 +19,15 @@
         <include>
             <directory suffix=".php">./app/Http/Controllers</directory>
         </include>
+        <exclude>
+            <file>./app/Http/Controllers/BikeController.php</file>
+            <file>./app/Http/Controllers/Controller.php</file>
+            <file>./app/Http/Controllers/InventoryController.php</file>
+            <file>./app/Http/Controllers/InvoiceController.php</file>
+            <file>./app/Http/Controllers/Controller.php</file>
+            <file>./app/Http/Controllers/RegistrationController.php</file>
+            <file>./app/Http/Controllers/VehicleController.php</file>
+        </exclude>
     </coverage>
     <php>
         <server name="APP_ENV" value="testing"/>
